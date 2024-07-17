@@ -1,6 +1,6 @@
 # My Personal Project
 
-## Description: Textbook Rental Application
+## Description: Textbook Rental Application - TextXChange
 
 My personal project is a textbook rental application designed specifically for students at UBC. This application facilitates access to textbooks between UBC students, offering both *rental opportunities* and *listings*. Users can either rent out their textbooks to fellow students or find textbooks available for rent. Textbooks are categorized by *Year Level, Subject, Course, and Faculty* to streamline search processes.
 
