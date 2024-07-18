@@ -1,38 +1,37 @@
 package model;
 
 public class Textbook {
-    int other;
 
+    private String title;
     private String author;
-    private int year;
     private String subject;
 
-    //EFFECTS: constructs a Textbook with given author, subject, year
-    public Textbook(String author, int year, String subject) {
+    // EFFECTS: constructs a Textbook with given author, subject, year
+    public Textbook(String author, String title, String subject) {
+        this.title = title;
         this.author = author;
-        this.year = year;
         this.subject = subject;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public void setAuthor(String author) {
         this.author = author;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
     }
 
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    public String getTitle() {
+        return title;
+    }
+    
+    // EFFECTS: returns the author for the textbook
     public String getAuthor() {
         return author;
-    }
-
-    public int getYear() {
-        return year;
     }
 
     public String getSubject() {
