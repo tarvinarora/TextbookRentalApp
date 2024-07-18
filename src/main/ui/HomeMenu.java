@@ -251,85 +251,108 @@ public class HomeMenu {
             for (Textbook book: mathbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
         } else if (subject.equals("French")) {
             for (Textbook book: frenchbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
-            }
+            }    
         } else if (subject.equals("Chemistry")) {
             for (Textbook book: chembooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+
         } else if (subject.equals("Computer Science")) {
             for (Textbook book: csbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+            
         } else if (subject.equals("English")) {
             for (Textbook book: englishbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+            
         } else if (subject.equals("Physics")) {
             for (Textbook book: physbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+            
         } else if (subject.equals("Biology")) {
             for (Textbook book: biobooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+            
         } else if (subject.equals("Statistics")) {
             for (Textbook book: statbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
+                    if (book.isRented()) {
+                        System.out.println("Sorry! Book is rented.");
+                    } else {
+                        System.out.println("Book is available to rent!");
+                    }
                     break;
                 }
-                System.out.println("Sorry your book was not found.");
-                chooseOptions();
             }
+            
         } else {
             System.out.println("Sorry your book was not found.");
-            chooseOptions();
         }
+        chooseOptions();
         }
     }
 
