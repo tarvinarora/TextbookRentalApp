@@ -10,14 +10,15 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 - As a user, I want to be able to create a listing for a new Textbook rental. 
 - As a user, I want to be able to add a Listing to a Rental list.
 - As a user, I want to be able to edit any field of the rental listing.
-- As a user, I want to be able to enter the condition of the textbook. 
+- As a user, I want to be able to enter the Title, Author, Subject, RentalPrice, and Condition of the textbook. 
+
 
 
 ## User Stories for the Textbook Rental Application (Borrow a Book Interface):
-- As a user, I want to be able to navigate through given categories to find required book.
+- As a user, I want to be able to navigate through given categories to find a required book.
 - As a user, I want to be able to search the book by Title, and subject. 
 - As a user, I want to be able to return to main menu. 
-- As a user, I want to be able to see the price of the rental.
 - As a user, I want to be able to view if the rental is available or not available. 
 - As a user, I want to be able to rent a textbook. 
+- As a user, I want to choose through a catalogue of subjects to find my subject related textbooks. 
   
