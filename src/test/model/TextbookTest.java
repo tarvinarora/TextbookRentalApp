@@ -11,7 +11,8 @@ public class TextbookTest {
     
     @BeforeEach
     void runBefore() {
-        testTextbook = new Textbook("Anne Cringer", "Intro to Probability", "Statistics", 15);
+        testTextbook = new Textbook("Intro to Programming", 
+        "Anne Fringer", "Computer Science", "15", "Good");
     }
 
     @Test
@@ -24,5 +25,23 @@ public class TextbookTest {
     void testSetSubject() {
         testTextbook.setSubject("Math");
         assertEquals("Math", testTextbook.getSubject());
+    }
+
+    @Test
+    void testSetAuthor() {
+        testTextbook.setAuthor("Anne Fringer");
+        assertEquals("Anne Fringer", testTextbook.getAuthor());
+    }
+
+    @Test
+    void testSetRentalPrice() {
+        testTextbook.setRentalPrice("15");
+        assertEquals("15", testTextbook.getRentalPrice());
+    }
+
+    @Test
+    void testSetCondition() {
+        testTextbook.setCondition("Bad");
+        assertEquals("Bad", testTextbook.getCondition());
     }
 }

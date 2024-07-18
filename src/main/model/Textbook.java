@@ -17,26 +17,37 @@ public class Textbook {
         this.condition = condition;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the Title of the textbook to the given title
     public void setTitle(String title) {
         this.title = title;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the Author of the textbook to the given author
     public void setAuthor(String author) {
         this.author = author;
     }
 
+    // MODIFIES: this
+    // EFFECTS: set the Subject of the textbook to the given subject
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the Rental Price of the textbook to the given price
     public void setRentalPrice(String rentalPrice) {
         this.rentalPrice = rentalPrice;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets the Condition of the textbook to the given condition
     public void setCondition(String condition) {
         this.condition = condition;
     }
 
+    // EFFECTS: return the title of the textbook
     public String getTitle() {
         return title;
     }
@@ -46,14 +57,17 @@ public class Textbook {
         return author;
     }
 
+    // EFFECTS: returns the subject of the textbook
     public String getSubject() {
         return subject;
     }
 
+    // EFFECTS: returns the rental price of the textbook
     public String getRentalPrice() {
         return rentalPrice;
     }
 
+    // EFFECTS: returns the condition of the textbook
     public String getCondition() {
         return condition;
     }
