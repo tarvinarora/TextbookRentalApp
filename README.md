@@ -10,8 +10,6 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 - As a user, I want to be able to create a listing for a new Textbook rental. 
 - As a user, I want to be able to add a Listing to a Rental list.
 - As a user, I want to be able to edit any field of the rental listing.
-- As a user, I want to be able to delete any field or the entire rental listing.
-- As a user, I want to be able to enter the Duration the rental is available for. 
 - As a user, I want to be able to enter the condition of the textbook. 
 
 

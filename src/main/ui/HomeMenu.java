@@ -49,6 +49,7 @@ public class HomeMenu {
         System.out.println("Please select an option:");
         System.out.println("a: List Your TextBook");
         System.out.println("b: Rent A TextBook");
+        System.out.println("c: Search Your Textbook");
     }
 
     // EFFECTS: processes user input in home menu and redirects user
@@ -60,6 +61,10 @@ public class HomeMenu {
             
             case "b":
                 handleRentTextbook();
+                break;
+            
+            case "c":
+                searchTextbook();
                 break;
             
             default:
@@ -79,7 +84,13 @@ public class HomeMenu {
         System.out.println("Please enter the subject of the book:");
         String subject = this.scanner.nextLine();
 
-        Textbook textbook = new Textbook(author, title, subject);
+        System.out.println("Please enter the rental price of the book:");
+        String rentalPrice = scanner.nextLine();
+
+        System.out.println("Please enter the condition of the book:");
+        String condition = scanner.nextLine();
+
+        Textbook textbook = new Textbook(title, author, subject, rentalPrice, condition);
 
         switch(textbook.getSubject()) {
             case "Math":
@@ -116,7 +127,10 @@ public class HomeMenu {
     private void handleRentTextbook() {
         displaySubjects();
         String input = this.scanner.nextLine();
-        processSubjectSelection(input);
+        List<Textbook> returnedList = processSubjectSelection(input);
+        displayList(returnedList);
+        selectRental();
+        chooseOptions();
     }
 
     // EFFECTS: displays subjects for which textbooks are available
@@ -130,6 +144,7 @@ public class HomeMenu {
         System.out.println("P: Physics");
         System.out.println("B: Biology");
         System.out.println("S: Statistics");
+        
     }
 
     private List<Textbook> processSubjectSelection (String input) {
@@ -154,4 +169,118 @@ public class HomeMenu {
                 return textbooks;
         }
     }
-}
+
+    private void displayList(List<Textbook> textbook) {
+        for(Textbook t: textbook) {
+            System.out.printf("%s\n", t.getTitle());
+        }
+    }
+
+    private void selectRental() {
+        System.out.println("Do you want to rent any textbooks listed?");
+        String confirm = scanner.nextLine();
+        switch(confirm) {
+            case "Y":
+                System.out.println("Please enter the title of the book:");
+                String title = scanner.nextLine();
+                System.out.println("Yay! You have rented " + title);
+                break;
+            case "N":
+                System.out.println("No textbooks have been selected.");
+                break;
+        }
+    }
+
+    private void searchTextbook() {
+        System.out.println("Please enter the title of the book you want to find:");
+        String title = scanner.nextLine();
+        System.out.println("Please enter the subject of book required:");
+        String subject = scanner.nextLine();
+        
+        if (subject.equals("Math")) {
+            for (Textbook book: mathbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("French")) {
+            for (Textbook book: frenchbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("Chemistry")) {
+            for (Textbook book: chembooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("Computer Science")) {
+            for (Textbook book: csbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("English")) {
+            for (Textbook book: englishbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("Physics")) {
+            for (Textbook book: physbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("Biology")) {
+            for (Textbook book: biobooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else if (subject.equals("Statistics")) {
+            for (Textbook book: statbooks) {
+                if(book.getTitle().equals(title)) {
+                    System.out.println("The book " +title+ " was found.");
+                    selectRental();
+                    break;
+                }
+                System.out.println("Sorry your book was not found.");
+                chooseOptions();
+            }
+        } else {
+            System.out.println("Sorry your book was not found.");
+            chooseOptions();
+        }
+        }
+    }
+

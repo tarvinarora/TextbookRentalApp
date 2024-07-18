@@ -5,12 +5,16 @@ public class Textbook {
     private String title;
     private String author;
     private String subject;
+    private String rentalPrice;
+    private String condition;
 
     // EFFECTS: constructs a Textbook with given author, subject, year
-    public Textbook(String author, String title, String subject) {
+    public Textbook(String title, String author, String subject, String rentalPrice, String condition) {
         this.title = title;
         this.author = author;
         this.subject = subject;
+        this.rentalPrice = rentalPrice;;
+        this.condition = condition;
     }
 
     public void setTitle(String title) {
@@ -23,6 +27,14 @@ public class Textbook {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public void setRentalPrice(String rentalPrice) {
+        this.rentalPrice = rentalPrice;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
     }
 
     public String getTitle() {
@@ -38,9 +50,12 @@ public class Textbook {
         return subject;
     }
 
+    public String getRentalPrice() {
+        return rentalPrice;
+    }
 
-
-    
-
+    public String getCondition() {
+        return condition;
+    }
 
 }
