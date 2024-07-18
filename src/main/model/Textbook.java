@@ -85,7 +85,7 @@ public class Textbook {
         status = false;
     }
 
-    // EFFECTS: returns whether the textbook is rented
+    //EFFECTS: returns whether textbook rental status
     public boolean isRented() {
         return status;
     }

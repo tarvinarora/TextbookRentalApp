@@ -44,4 +44,39 @@ public class TextbookTest {
         testTextbook.setCondition("Bad");
         assertEquals("Bad", testTextbook.getCondition());
     }
+
+    @Test
+    void testMarkRented() {
+        testTextbook.markRented();
+        assertTrue(testTextbook.isRented());
+        testTextbook.markNotRented();
+        assertFalse(testTextbook.isRented());
+        testTextbook.markNotRented();
+        assertFalse(testTextbook.isRented());
+        testTextbook.markRented();
+        assertTrue(testTextbook.isRented());
+
+    }
+
+    @Test
+    void testMarkNotRented() {
+        testTextbook.markNotRented();
+        assertFalse(testTextbook.isRented());
+        testTextbook.markNotRented();
+        assertFalse(testTextbook.isRented());
+        testTextbook.markRented();
+        assertTrue(testTextbook.isRented());
+        testTextbook.markNotRented();
+        assertFalse(testTextbook.isRented());
+        
+    }
+
+    @Test
+    void testIsRented() {
+        testTextbook.markRented();
+        assertEquals(true, testTextbook.isRented());
+        testTextbook.markNotRented();
+        assertEquals(false, testTextbook.isRented());
+        
+    }
 }
