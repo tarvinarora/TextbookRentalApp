@@ -15,10 +15,9 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 
 ## User Stories for the Textbook Rental Application (Borrow a Book Interface):
 - As a user, I want to be able to navigate through given categories to find required book.
-- As a user, I want to be able to search the book by Author, Course, Title, or keywords. 
+- As a user, I want to be able to search the book by Title, and subject. 
 - As a user, I want to be able to return to main menu. 
 - As a user, I want to be able to see the price of the rental.
 - As a user, I want to be able to view if the rental is available or not available. 
-- As a user, I want to be able to request for the rental.
-- As a user, I want to be able to select the *Duration of the Rental* 
+- As a user, I want to be able to rent a textbook. 
   
