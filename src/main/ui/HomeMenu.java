@@ -37,6 +37,17 @@ public class HomeMenu {
         chooseOptions();
     }
 
+    // public void combineTextbooks() {
+    //     textbooks.addAll(mathbooks);
+    //     textbooks.addAll(frenchbooks);
+    //     textbooks.addAll(chembooks);
+    //     textbooks.addAll(csbooks);
+    //     textbooks.addAll(englishbooks);
+    //     textbooks.addAll(physbooks);
+    //     textbooks.addAll(biobooks);
+    //     textbooks.addAll(statbooks);
+    // }
+
     // EFFECTS: 
     public void chooseOptions() {
         displayOptions();
@@ -95,27 +106,43 @@ public class HomeMenu {
         switch(textbook.getSubject()) {
             case "Math":
                 this.mathbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "French":
                 this.frenchbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "Chemistry":
                 this.chembooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "Computer Science":
                 this.csbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "English":
                 this.englishbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "Physics":
                 this.physbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "Biology":
                 this.biobooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
             case "Statistics":
                 this.statbooks.add(textbook);
+                this.textbooks.add(textbook);
+                textbook.markNotRented();
                 break;
         }
         System.out.println("New rental listing successfully created!");
@@ -183,12 +210,35 @@ public class HomeMenu {
             case "Y":
                 System.out.println("Please enter the title of the book:");
                 String title = scanner.nextLine();
-                System.out.println("Yay! You have rented " + title);
+                Textbook textbook = findTextbook(title);
+                if (textbook != null) {
+                    if (!textbook.isRented()){
+                        textbook.markRented();
+                        System.out.println("Yay! You have rented " + title);
+                        chooseOptions();
+                    } else {
+                        System.out.println("Sorry! The book has already been rented.");
+                        chooseOptions();
+                    }
+                } else {
+                    System.out.println("Sorry! The book was not found.");
+                    chooseOptions();
+                }
                 break;
             case "N":
                 System.out.println("No textbooks have been selected.");
+                chooseOptions();
                 break;
         }
+    }
+
+    private Textbook findTextbook(String title) {
+        for (Textbook book: textbooks) {
+            if (book.getTitle().equals(title)) {
+                return book;
+            }
+        }
+        return null;
     }
 
     private void searchTextbook() {
@@ -201,7 +251,6 @@ public class HomeMenu {
             for (Textbook book: mathbooks) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
-                    selectRental();
                     break;
                 }
                 System.out.println("Sorry your book was not found.");
