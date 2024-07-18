@@ -7,6 +7,7 @@ public class Textbook {
     private String subject;
     private String rentalPrice;
     private String condition;
+    private boolean status;
 
     // EFFECTS: constructs a Textbook with given author, subject, year
     public Textbook(String title, String author, String subject, String rentalPrice, String condition) {
@@ -70,6 +71,23 @@ public class Textbook {
     // EFFECTS: returns the condition of the textbook
     public String getCondition() {
         return condition;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: marks the textbook as rented
+    public void markRented() {
+        status = true;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: marks the textbook as not rented
+    public void markNotRented() {
+        status = false;
+    }
+
+    // EFFECTS: returns whether the textbook is rented
+    public boolean isRented() {
+        return status;
     }
 
 }
