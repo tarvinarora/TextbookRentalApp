@@ -88,65 +88,52 @@ public class HomeMenu {
     private void listTextbook() {
         System.out.println("Please enter the title of the textbook:");
         String title = this.scanner.nextLine();
-        
         System.out.println("Please enter the author of the book:");
         String author = this.scanner.nextLine();
-
         System.out.println("Please enter the subject of the book:");
         String subject = this.scanner.nextLine();
-
         System.out.println("Please enter the rental price of the book:");
         String rentalPrice = scanner.nextLine();
-
         System.out.println("Please enter the condition of the book:");
         String condition = scanner.nextLine();
-
         Textbook textbook = new Textbook(title, author, subject, rentalPrice, condition);
-
         switch(textbook.getSubject()) {
             case "Math":
-                this.mathbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(mathbooks, textbook);
                 break;
             case "French":
-                this.frenchbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(mathbooks, textbook);
                 break;
             case "Chemistry":
-                this.chembooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(chembooks, textbook);
                 break;
             case "Computer Science":
-                this.csbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(csbooks, textbook);
                 break;
             case "English":
-                this.englishbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(englishbooks, textbook);
                 break;
             case "Physics":
-                this.physbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(physbooks, textbook);
                 break;
             case "Biology":
-                this.biobooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(biobooks, textbook);
                 break;
             case "Statistics":
-                this.statbooks.add(textbook);
-                this.textbooks.add(textbook);
-                textbook.markNotRented();
+                addToList(statbooks, textbook);
                 break;
         }
         System.out.println("New rental listing successfully created!");
         chooseOptions();
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds subjectbook to subject list, adds textbook to general list
+    // and marks as not rented.
+    public void addToList(List<Textbook> subjectBook, Textbook textbook) {
+        subjectBook.add(textbook);
+        textbooks.add(textbook);
+        textbook.markNotRented();
     }
 
 
