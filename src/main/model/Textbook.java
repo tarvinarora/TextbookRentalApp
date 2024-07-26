@@ -1,6 +1,11 @@
 package model;
 
-public class Textbook {
+import org.json.JSONObject;
+import persistence.Writable;
+
+// Represents a textbook having a title, author, subject, rentalPrice, condition and status
+
+public class Textbook implements Writable{
 
     private String title;
     private String author;
@@ -88,6 +93,17 @@ public class Textbook {
     //EFFECTS: returns whether textbook rental status
     public boolean isRented() {
         return status;
+    }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("Title", title);
+        json.put("Author", author);
+        json.put("Subject", subject);
+        json.put("Rental Price", rentalPrice);
+        json.put("Condition", condition);
+        return json;
     }
 
 }

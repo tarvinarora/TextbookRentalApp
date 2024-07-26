@@ -1,11 +1,17 @@
 package ui;
 
 import model.Textbook;
+import model.Buyer;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-// import org.junit.platform.console.shadow.picocli.CommandLine.Help.Ansi.Text;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+import java.io.IOException;
+
 
 public class HomeMenu {
 
@@ -19,9 +25,13 @@ public class HomeMenu {
     private List<Textbook> physbooks;
     private List<Textbook> biobooks;
     private List<Textbook> statbooks;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
+    private static final String JSON_STORE = "./data/wishList.json";
+    private Buyer buyer;
 
 
-    public HomeMenu() {
+    public HomeMenu() throws FileNotFoundException {
         this.textbooks = new ArrayList<>();
         this.mathbooks = new ArrayList<>();
         this.frenchbooks = new ArrayList<>();
@@ -32,23 +42,15 @@ public class HomeMenu {
         this.biobooks = new ArrayList<>();
         this.statbooks = new ArrayList<>();
         this.scanner = new Scanner(System.in);
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+        buyer = new Buyer();
 
         System.out.println("Welcome to TextXChange!");
         chooseOptions();
     }
 
-    // public void combineTextbooks() {
-    //     textbooks.addAll(mathbooks);
-    //     textbooks.addAll(frenchbooks);
-    //     textbooks.addAll(chembooks);
-    //     textbooks.addAll(csbooks);
-    //     textbooks.addAll(englishbooks);
-    //     textbooks.addAll(physbooks);
-    //     textbooks.addAll(biobooks);
-    //     textbooks.addAll(statbooks);
-    // }
-
-    // EFFECTS: 
+    // EFFECTS: displays the menu options, takes user input, and processes selected option  
     public void chooseOptions() {
         displayOptions();
         String input = this.scanner.nextLine();
@@ -61,6 +63,9 @@ public class HomeMenu {
         System.out.println("a: List Your TextBook");
         System.out.println("b: Rent A TextBook");
         System.out.println("c: Search Your Textbook");
+        System.out.println("d: Add to Wishlist");
+        System.out.println("e: Save Wishlist");
+        System.out.println("f: Load wishlist");
     }
 
     // EFFECTS: processes user input in home menu and redirects user
@@ -68,16 +73,22 @@ public class HomeMenu {
         switch (input) {
             case "a":
                 listTextbook();
-                break;
-            
+                break;           
             case "b":
                 handleRentTextbook();
-                break;
-            
+                break;            
             case "c":
                 searchTextbook();
+                break;            
+            case "d":
+                editWishlist();
                 break;
-            
+            case "e":
+                saveWishlist();
+                break;
+            case "f":
+                loadWishlist();
+                break;
             default:
                 System.out.println("Incorrect selection. Please try again!");
         }
@@ -138,6 +149,10 @@ public class HomeMenu {
 
     //EFFECTS: displays menu for textbook rental and processes user commands
     private void handleRentTextbook() {
+        if (buyer.getBuyerName() == null) {
+            System.out.println("Please enter your name: ");
+            buyer.setBuyerName(scanner.nextLine());
+        }
         displaySubjects();
         String input = this.scanner.nextLine();
         List<Textbook> returnedList = processSubjectSelection(input);
@@ -254,8 +269,9 @@ public class HomeMenu {
             findSubjectBook(biobooks, title);   
         } else if (subject.equals("Statistics")) {
             findSubjectBook(statbooks, title);
+        }else {
+            System.out.println("Sorry your book was not found.");
         }
-        System.out.println("Sorry your book was not found.");
         chooseOptions();
     }
 
@@ -274,6 +290,48 @@ public class HomeMenu {
                 break;
             }
         }
+        System.out.print("Sorry book was not found!\n");
+    }
+
+    public void editWishlist() {
+        System.out.println("Please enter title of the book: ");
+        String title = scanner.nextLine();
+        Textbook textbook = findTextbook(title);
+        if (textbook != null) {
+            buyer.addToWishlist(textbook);
+            System.out.println(textbook.getTitle() + " was added to wishlist!");
+            chooseOptions();
+        } else {
+            System.out.println("Sorry cannot be added to wishlist!");
+            chooseOptions();
+        }
+    }
+
+    //EFFECTS: save Buyer's wishlist to file
+    public void saveWishlist() {
+        if (buyer.getBuyerName() == null) {
+            System.out.println("Please enter your name: ");
+            buyer.setBuyerName(scanner.nextLine());
+        }
+        try {
+            jsonWriter.open();
+            jsonWriter.write(buyer);
+            jsonWriter.close();
+            System.out.println("Saved " + buyer.getBuyerName() + "'s Wishlist to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+        chooseOptions();
+    }
+
+    public void loadWishlist() {
+        try {
+            buyer = jsonReader.read();
+            System.out.println("Loaded " + buyer.getBuyerName() + "'s Wishlist from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+        chooseOptions();
     }
 }
 

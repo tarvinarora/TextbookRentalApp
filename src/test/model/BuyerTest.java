@@ -12,19 +12,13 @@ public class BuyerTest {
 
     @BeforeEach 
     void runBefore(){
-        testBuyer = new Buyer("John", 001);
+        testBuyer = new Buyer("John");
     }
 
     @Test
     void testSetBuyerName() {
         testBuyer.setBuyerName("Matilda");
         assertEquals("Matilda", testBuyer.getBuyerName());
-    }
-
-    @Test 
-    void testSetBuyerId() {
-        testBuyer.setBuyerId(002);
-        assertEquals(002, testBuyer.getBuyerId());
     }
 
     
