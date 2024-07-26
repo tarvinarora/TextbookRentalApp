@@ -1,16 +1,12 @@
 package model;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-import persistence.Writable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
 // Represents a seller having a collection of rental listings
-public class Seller implements Writable{
+public class Seller{
 
     private String sellerName;
     private List<Textbook> activelistings;
@@ -41,25 +37,6 @@ public class Seller implements Writable{
     // EFFECTS: returns an unmodifiable list of activelistings of the seller
     public List<Textbook> getActiveListings() {
         return Collections.unmodifiableList(activelistings);
-    }
-
-    @Override
-    public JSONObject toJson() {
-        JSONObject json = new JSONObject();
-        json.put("Seller Name", sellerName);
-        json.put("Active Listings", activeListingsToJson());
-        return json;
-    }
-
-    // EFFECTS: returns activelistings in this seller as a JSON array
-    private JSONArray activeListingsToJson() {
-        JSONArray jsonArray = new JSONArray();
-
-        for (Textbook t : activelistings) {
-            jsonArray.put(t.toJson());
-        }
-
-        return jsonArray;
     }
 
 }

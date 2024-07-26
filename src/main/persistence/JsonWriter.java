@@ -1,7 +1,6 @@
 package persistence;
 
 import model.Buyer;
-import model.Seller;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -28,13 +27,6 @@ public class JsonWriter {
     // EFFECTS: writes JSON representation of buyer to file
     public void write(Buyer b) {
         JSONObject json = b.toJson();
-        saveToFile(json.toString(TAB));
-    }
-
-    // MODIFIES: this
-    // EFFECTS: writes JSON representation of seller to file
-    public void write(Seller s) {
-        JSONObject json = s.toJson();
         saveToFile(json.toString(TAB));
     }
 

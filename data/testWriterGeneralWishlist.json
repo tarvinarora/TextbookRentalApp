@@ -1,0 +1,19 @@
+{
+    "Buyer Name": "Buyer Name",
+    "Wishlisted": [
+        {
+            "Rental Price": "Price 1",
+            "Condition": "Condition 1",
+            "Title": "Title 1",
+            "Author": "Author 1",
+            "Subject": "Subject 1"
+        },
+        {
+            "Rental Price": "Price 2",
+            "Condition": "Condition 2",
+            "Title": "Title 2",
+            "Author": "Author 2",
+            "Subject": "Subject 2"
+        }
+    ]
+}

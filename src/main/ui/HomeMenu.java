@@ -269,8 +269,6 @@ public class HomeMenu {
             findSubjectBook(biobooks, title);   
         } else if (subject.equals("Statistics")) {
             findSubjectBook(statbooks, title);
-        }else {
-            System.out.println("Sorry your book was not found.");
         }
         chooseOptions();
     }
@@ -288,9 +286,10 @@ public class HomeMenu {
                     System.out.println("Book is available to rent!");
                 }
                 break;
+            } else {
+                System.out.println("Sorry your book was not found.");
             }
         }
-        System.out.print("Sorry book was not found!\n");
     }
 
     public void editWishlist() {
