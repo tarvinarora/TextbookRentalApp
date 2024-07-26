@@ -136,8 +136,6 @@ public class HomeMenu {
         textbook.markNotRented();
     }
 
-
-
     private void handleRentTextbook() {
         displaySubjects();
         String input = this.scanner.nextLine();
@@ -232,99 +230,30 @@ public class HomeMenu {
         System.out.println("Please enter the title of the book you want to find:");
         String title = scanner.nextLine();
         System.out.println("Please enter the subject of book required:");
-        String subject = scanner.nextLine();
-        
+        String subject = scanner.nextLine(); 
         if (subject.equals("Math")) {
-            for (Textbook book: mathbooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
+            findSubjectBook(mathbooks, title);
         } else if (subject.equals("French")) {
-            for (Textbook book: frenchbooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }    
+                findSubjectBook(frenchbooks, title); 
         } else if (subject.equals("Chemistry")) {
-            for (Textbook book: chembooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
-
+            findSubjectBook(chembooks, title);
         } else if (subject.equals("Computer Science")) {
-            for (Textbook book: csbooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
-            
+            findSubjectBook(csbooks, title);
         } else if (subject.equals("English")) {
-            for (Textbook book: englishbooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
-            
+            findSubjectBook(englishbooks, title);
         } else if (subject.equals("Physics")) {
-            for (Textbook book: physbooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
-            
+            findSubjectBook(physbooks, title);
         } else if (subject.equals("Biology")) {
-            for (Textbook book: biobooks) {
-                if(book.getTitle().equals(title)) {
-                    System.out.println("The book " +title+ " was found.");
-                    if (book.isRented()) {
-                        System.out.println("Sorry! Book is rented.");
-                    } else {
-                        System.out.println("Book is available to rent!");
-                    }
-                    break;
-                }
-            }
-            
+            findSubjectBook(biobooks, title);   
         } else if (subject.equals("Statistics")) {
-            for (Textbook book: statbooks) {
+            findSubjectBook(statbooks, title);
+        }
+        System.out.println("Sorry your book was not found.");
+        chooseOptions();
+        }
+
+        public void findSubjectBook(List<Textbook> subjectBook, String title) {
+            for (Textbook book: subjectBook) {
                 if(book.getTitle().equals(title)) {
                     System.out.println("The book " +title+ " was found.");
                     if (book.isRented()) {
@@ -335,11 +264,6 @@ public class HomeMenu {
                     break;
                 }
             }
-            
-        } else {
-            System.out.println("Sorry your book was not found.");
-        }
-        chooseOptions();
         }
     }
 
