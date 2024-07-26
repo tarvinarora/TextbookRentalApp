@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 // Represents a Buyer having a collection of wishlisted textbooks
-public class Buyer implements Writable{
+public class Buyer implements Writable {
 
     private String buyerName;
     private List<Textbook> wishlisted;
@@ -19,7 +19,8 @@ public class Buyer implements Writable{
         this.buyerName = buyerName;
         this.wishlisted = new ArrayList<>();
     }
-    public Buyer(){
+    
+    public Buyer() {
         this.buyerName = null;
         this.wishlisted = new ArrayList<>();
     }

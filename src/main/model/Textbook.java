@@ -5,7 +5,7 @@ import persistence.Writable;
 
 // Represents a textbook having a title, author, subject, rentalPrice, condition and status
 
-public class Textbook implements Writable{
+public class Textbook implements Writable {
 
     private String title;
     private String author;

@@ -97,6 +97,14 @@ public class HomeMenu {
     // MODIFIES: this
     // EFFECTS: adds a rental listing for a textbook
     private void listTextbook() {
+        Textbook textbook = createTextbook();
+        addTextbookToList(textbook);
+        System.out.println("New rental listing successfully created!");
+        chooseOptions();
+    }
+
+    //EFFECTS: creates a new Textbook from user input
+    public Textbook createTextbook() {
         System.out.println("Please enter the title of the textbook:");
         String title = this.scanner.nextLine();
         System.out.println("Please enter the author of the book:");
@@ -107,13 +115,18 @@ public class HomeMenu {
         String rentalPrice = scanner.nextLine();
         System.out.println("Please enter the condition of the book:");
         String condition = scanner.nextLine();
-        Textbook textbook = new Textbook(title, author, subject, rentalPrice, condition);
+        return new Textbook(title, author, subject, rentalPrice, condition);
+    }
+
+    //EFFECTS: adds the textbook to its corresponding subject list
+    @SuppressWarnings("methodlength")
+    public void addTextbookToList(Textbook textbook) {
         switch (textbook.getSubject()) {
             case "Math":
                 addToList(mathbooks, textbook);
                 break;
             case "French":
-                addToList(mathbooks, textbook);
+                addToList(frenchbooks, textbook);
                 break;
             case "Chemistry":
                 addToList(chembooks, textbook);
@@ -134,8 +147,6 @@ public class HomeMenu {
                 addToList(statbooks, textbook);
                 break;
         }
-        System.out.println("New rental listing successfully created!");
-        chooseOptions();
     }
 
     // MODIFIES: this
@@ -208,33 +219,40 @@ public class HomeMenu {
 
     // EFFECTS: if the user wants to rent textbooks, then a new menu is presented,
     //          menu will check for availability and print messages accordingly
-    private void selectRental() {
+    public void selectRental() {
         System.out.println("Do you want to rent any textbooks listed?");
         String confirm = scanner.nextLine();
         switch (confirm) {
             case "Y":
-                System.out.println("Please enter the title of the book:");
-                String title = scanner.nextLine();
-                Textbook textbook = findTextbook(title);
-                if (textbook != null) {
-                    if (!textbook.isRented()) {
-                        textbook.markRented();
-                        System.out.println("Yay! You have rented " + title);
-                        chooseOptions();
-                    } else {
-                        System.out.println("Sorry! The book has already been rented.");
-                        chooseOptions();
-                    }
-                } else {
-                    System.out.println("Sorry! The book was not found.");
-                    chooseOptions();
-                }
+                handleRental();
                 break;
             case "N":
                 System.out.println("No textbooks have been selected.");
                 chooseOptions();
                 break;
         }
+    }
+
+    // EFFECTS: if textbook != null AND textbook is not rented, then mark textbook as rented
+    //          along with success message, otherwise print error message and return to menu
+    public void handleRental() {
+        System.out.println("Please enter the title of the book:");
+        String title = scanner.nextLine();
+        Textbook textbook = findTextbook(title);
+        if (textbook != null) {
+            if (!textbook.isRented()) {
+                textbook.markRented();
+                System.out.println("Yay! You have rented " + title);
+                chooseOptions();
+            } else {
+                System.out.println("Sorry! The book has already been rented.");
+                chooseOptions();
+            }
+        } else {
+            System.out.println("Sorry! The book was not found.");
+            chooseOptions();
+        }
+
     }
 
     // EFFECTS: searches for the textbook in active listings and returns it, otherwise null
@@ -253,22 +271,26 @@ public class HomeMenu {
         String title = scanner.nextLine();
         System.out.println("Please enter the subject of book required:");
         String subject = scanner.nextLine(); 
+        boolean found = false;
         if (subject.equals("Math")) {
-            findSubjectBook(mathbooks, title);
+            found = findSubjectBook(mathbooks, title);
         } else if (subject.equals("French")) {
-            findSubjectBook(frenchbooks, title); 
+            found = findSubjectBook(frenchbooks, title); 
         } else if (subject.equals("Chemistry")) {
-            findSubjectBook(chembooks, title);
+            found = findSubjectBook(chembooks, title);
         } else if (subject.equals("Computer Science")) {
-            findSubjectBook(csbooks, title);
+            found = findSubjectBook(csbooks, title);
         } else if (subject.equals("English")) {
-            findSubjectBook(englishbooks, title);
+            found = findSubjectBook(englishbooks, title);
         } else if (subject.equals("Physics")) {
-            findSubjectBook(physbooks, title);
+            found = findSubjectBook(physbooks, title);
         } else if (subject.equals("Biology")) {
-            findSubjectBook(biobooks, title);   
+            found = findSubjectBook(biobooks, title);   
         } else if (subject.equals("Statistics")) {
-            findSubjectBook(statbooks, title);
+            found = findSubjectBook(statbooks, title);
+        }
+        if (!found) {
+            System.out.println("Sorry, your book was not found.");
         }
         chooseOptions();
     }
@@ -276,7 +298,7 @@ public class HomeMenu {
     //  EFFECTS: if book title is found then prints success message,
     //           if book isRented then prints sorry message else,
     //           prints that the book is available
-    public void findSubjectBook(List<Textbook> subjectBook, String title) {
+    public boolean findSubjectBook(List<Textbook> subjectBook, String title) {
         for (Textbook book: subjectBook) {
             if (book.getTitle().equals(title)) {
                 System.out.println("The book " + title + " was found.");
@@ -285,13 +307,13 @@ public class HomeMenu {
                 } else {
                     System.out.println("Book is available to rent!");
                 }
-                break;
-            } else {
-                System.out.println("Sorry your book was not found.");
+                return true;
             }
         }
+        return false;
     }
 
+    // EFFECTS: add textbook to wishlist
     public void editWishlist() {
         System.out.println("Please enter title of the book: ");
         String title = scanner.nextLine();
@@ -323,6 +345,7 @@ public class HomeMenu {
         chooseOptions();
     }
 
+    // EFFECTS: load the saved state of the wishlist
     public void loadWishlist() {
         try {
             buyer = jsonReader.read();

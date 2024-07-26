@@ -6,7 +6,7 @@ import java.util.List;
 
 
 // Represents a seller having a collection of rental listings
-public class Seller{
+public class Seller {
 
     private String sellerName;
     private List<Textbook> activelistings;
