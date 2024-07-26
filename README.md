@@ -11,6 +11,8 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 - As a user, I want to be able to add a Listing to a Rental list.
 - As a user, I want to be able to edit any field of the rental listing.
 - As a user, I want to be able to enter the Title, Author, Subject, RentalPrice, and Condition of the textbook. 
+- As a user, I want to be able to add a textbook to my wishlist and save it if I wish. 
+- As a user, I want to be able to load my wishlist from file (if I choose).
 
 
 
