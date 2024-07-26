@@ -11,6 +11,7 @@ public class Seller {
     private String sellerName;
     private List<Textbook> activelistings;
 
+    //constructs a seller with a name and empty list of activeListings
     public Seller(String sellerName) {
         this.sellerName = sellerName;
         this.activelistings = new ArrayList<>();
