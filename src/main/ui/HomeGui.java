@@ -14,7 +14,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class HomeGui extends JFrame{
+public class HomeGui extends JFrame {
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
@@ -40,6 +40,20 @@ public class HomeGui extends JFrame{
     private JPanel createHomePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(4, 1, 10, 10));
+
+        JButton rentButton = createRentButton();
+        JButton listButton = createListButton();
+        JButton searchButton = createSearchButton();
+        JButton exitButton = createExitButton();
+
+        panel.add(rentButton);
+        panel.add(listButton);
+        panel.add(searchButton);
+        panel.add(exitButton);
+        return panel;
+    }
+
+    private JButton createRentButton() {
         JButton rentButton = new JButton("Rent a Book");
         rentButton.addActionListener(new ActionListener() {
             @Override
@@ -47,6 +61,10 @@ public class HomeGui extends JFrame{
                 cardLayout.show(mainPanel, "Rent");
             }
         });
+        return rentButton;
+    }
+
+    private JButton createListButton() {
         JButton listButton = new JButton("List a Book");
         listButton.addActionListener(new ActionListener() {
             @Override
@@ -54,6 +72,10 @@ public class HomeGui extends JFrame{
                 cardLayout.show(mainPanel, "List");
             }
         });
+        return listButton;
+    }
+
+    private JButton createSearchButton() {
         JButton searchButton = new JButton("Search a Book");
         searchButton.addActionListener(new ActionListener() {
             @Override
@@ -61,6 +83,10 @@ public class HomeGui extends JFrame{
                 cardLayout.show(mainPanel, "Search");
             }
         });
+        return searchButton;
+    }
+
+    private JButton createExitButton() {
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
             @Override
@@ -68,11 +94,7 @@ public class HomeGui extends JFrame{
                 System.exit(0);
             }
         });
-        panel.add(rentButton);
-        panel.add(listButton);
-        panel.add(searchButton);
-        panel.add(exitButton);
-        return panel;
+        return exitButton;
     }
 
     private JPanel createRentPanel() {
