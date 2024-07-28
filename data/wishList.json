@@ -2,9 +2,9 @@
     "Buyer Name": "Tarvin",
     "Wishlisted": [{
         "Rental Price": "5",
-        "Condition": "good",
-        "Title": "Math2",
-        "Author": "a",
+        "Condition": "Good",
+        "Title": "Title",
+        "Author": "author",
         "Subject": "Math"
     }]
 }
