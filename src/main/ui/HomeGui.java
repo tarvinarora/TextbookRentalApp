@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import model.Textbook;
+import model.Buyer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,9 +16,12 @@ public class HomeGui extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private HashMap<String, ArrayList<Textbook>> bookMap; // key:Subject; value: list of textbooks
+    private Buyer currentBuyer;
+    private JTextField nameField;
 
     public HomeGui() {
         bookMap = new HashMap<>();
+        currentBuyer = new Buyer();
         JFrame frame = new JFrame("Textbook Rental Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -27,10 +31,13 @@ public class HomeGui extends JFrame {
         JPanel rentPanel = createRentPanel();
         JPanel listPanel = createListPanel();
         JPanel searchPanel = createSearchPanel();
+        JPanel confirmRentalPanel = createConfirmRentalPanel();
         mainPanel.add(homePanel, "Home");
         mainPanel.add(rentPanel, "Rent");
         mainPanel.add(listPanel, "List");
         mainPanel.add(searchPanel, "Search");
+        mainPanel.add(confirmRentalPanel, "ConfirmRental");
+        
         frame.add(mainPanel);
         frame.setVisible(true);
     }
@@ -42,11 +49,13 @@ public class HomeGui extends JFrame {
         JButton rentButton = createRentButton();
         JButton listButton = createListButton();
         JButton searchButton = createSearchButton();
+        JButton viewWishlistButton = createViewWishlistButton();
         JButton exitButton = createExitButton();
 
         panel.add(rentButton);
         panel.add(listButton);
         panel.add(searchButton);
+        panel.add(viewWishlistButton);
         panel.add(exitButton);
         return panel;
     }
@@ -82,6 +91,17 @@ public class HomeGui extends JFrame {
             }
         });
         return searchButton;
+    }
+
+    private JButton createViewWishlistButton() {
+        JButton viewWishlistButton = new JButton("View Wishlist");
+        viewWishlistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "ViewWishlist");
+            }
+        });
+        return viewWishlistButton;
     }
 
     private JButton createExitButton() {
@@ -120,7 +140,7 @@ public class HomeGui extends JFrame {
         JPanel northPanel = new JPanel(new GridLayout(2, 1, 5, 5));
         JPanel namePanel = new JPanel(new FlowLayout());
         JLabel nameLabel = new JLabel("Please enter your name:");
-        JTextField nameField = new JTextField(20);
+        nameField = new JTextField(20);
 
         namePanel.add(nameLabel);
         namePanel.add(nameField);
@@ -151,7 +171,13 @@ public class HomeGui extends JFrame {
         subjectButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                displayBooksForSubject(subject);
+                if (nameField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(mainPanel, "Please enter your name first.",
+                            "Name Required", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    currentBuyer.setBuyerName(nameField.getText()); // Set the buyer name
+                    displayBooksForSubject(subject);
+                }
             }
         });
         return subjectButton;
@@ -161,18 +187,31 @@ public class HomeGui extends JFrame {
         if (bookMap.containsKey(subject)) { // does the map have subjects
             ArrayList<Textbook> textbooks = bookMap.get(subject); // getting the list of textbooks
             if (textbooks.isEmpty()) {
-                JOptionPane.showMessageDialog(mainPanel,"No books available for subject: " + subject, 
-                            "No Books", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject,
+                        "No Books", JOptionPane.INFORMATION_MESSAGE);
             } else {
                 StringBuilder bookList = new StringBuilder("Books available for " + subject + ":\n");
                 int index = 1;
                 for (Textbook book : textbooks) {
                     bookList.append(index).append(". ").append(book.getTitle()).append("\n");
+                    index++;
                 }
-                JOptionPane.showMessageDialog(mainPanel, bookList.toString(), "Books List", JOptionPane.INFORMATION_MESSAGE);
+                int result = JOptionPane.showOptionDialog(mainPanel, bookList.toString(), "Books List",
+                        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+                        new String[] { "Cancel", "Rent", "Add to Wishlist"}, "Rent");
+
+                if (result == JOptionPane.NO_OPTION) {
+                    cardLayout.show(mainPanel, "ConfirmRental");
+                } else if (result == JOptionPane.CANCEL_OPTION) {
+                    for (Textbook textbook: textbooks) {
+                        currentBuyer.addToWishlist(textbook);
+                    }
+                    JOptionPane.showMessageDialog(mainPanel, "Books added to wishlist", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
             }
         } else {
-            JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject, "No Books", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject, "No Books",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -212,6 +251,7 @@ public class HomeGui extends JFrame {
                 String price = fields[3].getText();
                 String condition = fields[4].getText();
                 Textbook textbook = new Textbook(title, author, subject, price, condition);
+                textbook.markNotRented();
                 if (!bookMap.containsKey(subject)) { // are there textbooks of selected subject?
                     bookMap.put(subject, new ArrayList<Textbook>());
                 }
@@ -283,5 +323,49 @@ public class HomeGui extends JFrame {
             JOptionPane.showMessageDialog(panel, "Subject not found.",
                     "Failure", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private JPanel createConfirmRentalPanel() {
+        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JLabel titleLabel = new JLabel("Please Enter the title of the book you want to rent: ");
+        JTextField titleField = new JTextField();
+        JButton confirmButton = new JButton("Confirm Rental");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                confirmRental(titleField.getText());
+            }
+        });
+        panel.add(titleLabel);
+        panel.add(titleField);
+        panel.add(confirmButton);
+        panel.add(createBackButton());
+
+        return panel;
+    }
+
+    private void confirmRental(String title) {
+        for (ArrayList<Textbook> textbooks : bookMap.values()) {
+            for (Textbook book : textbooks) {
+                if (book.getTitle().equalsIgnoreCase(title)) {
+                    if (book.isRented()) {
+                        JOptionPane.showMessageDialog(mainPanel, "Sorry, the book is already rented.", "Rental Status",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    } else {
+                        book.markRented();
+                        JOptionPane.showMessageDialog(mainPanel, "Yay, you have rented the book!", "Rental Status",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
+                    return;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(mainPanel, "No book found with title: " + title, "Rental Status",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private JPanel createViewWishlistPanel() {
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
+        
     }
 }
