@@ -1,13 +1,10 @@
 package ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import model.Textbook;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,8 +15,10 @@ public class HomeGui extends JFrame {
 
     private CardLayout cardLayout;
     private JPanel mainPanel;
+    private HashMap<String, ArrayList<Textbook>> bookMap; // key:Subject; value: list of textbooks
 
     public HomeGui() {
+        bookMap = new HashMap<>();
         JFrame frame = new JFrame("Textbook Rental Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600,400);
@@ -188,7 +187,18 @@ public class HomeGui extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("New Rental Listing Successfully Created!");
+                String title = fields[0].getText();
+                String author = fields[1].getText();
+                String subject = fields[2].getText();
+                String price = fields[3].getText();
+                String condition = fields[4].getText();
+                Textbook textbook = new Textbook(title, author, subject, price, condition);
+                if (!bookMap.containsKey(subject)) { // are there textbooks of selected subject?
+                    bookMap.put(subject, new ArrayList<Textbook>());
+                }
+                bookMap.get(subject).add(textbook); //otherwise just add to already existing list
+                JOptionPane.showMessageDialog(panel, "New Rental Listing Successfully Created!", 
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
                 for (JTextField field : fields) {
                     field.setText("");
                 }
