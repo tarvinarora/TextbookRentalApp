@@ -135,24 +135,45 @@ public class HomeGui extends JFrame {
         JPanel subjectPanel = new JPanel();
         subjectPanel.setLayout(new GridLayout(4, 2, 10, 10));
 
-        JButton mathButton = new JButton("Math");
-        JButton frenchButton = new JButton("French");
-        JButton chemistryButton = new JButton("Chemistry");
-        JButton computerScienceButton = new JButton("Computer Science");
-        JButton englishButton = new JButton("English");
-        JButton physicsButton = new JButton("Physics");
-        JButton biologyButton = new JButton("Biology");
-        JButton statisticsButton = new JButton("Statistics");
-
-        subjectPanel.add(mathButton);
-        subjectPanel.add(frenchButton);
-        subjectPanel.add(chemistryButton);
-        subjectPanel.add(computerScienceButton);
-        subjectPanel.add(englishButton);
-        subjectPanel.add(physicsButton);
-        subjectPanel.add(biologyButton);
-        subjectPanel.add(statisticsButton);
+        subjectPanel.add(createSubjectButton("Math"));
+        subjectPanel.add(createSubjectButton("French"));
+        subjectPanel.add(createSubjectButton("Chemistry"));
+        subjectPanel.add(createSubjectButton("Computer Science"));
+        subjectPanel.add(createSubjectButton("English"));
+        subjectPanel.add(createSubjectButton("Physics"));
+        subjectPanel.add(createSubjectButton("Biology"));
+        subjectPanel.add(createSubjectButton("Statistics"));
         return subjectPanel;
+    }
+
+    private JButton createSubjectButton(String subject) {
+        JButton subjectButton = new JButton(subject);
+        subjectButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                displayBooksForSubject(subject);
+            }
+        });
+        return subjectButton;
+    }
+
+    private void displayBooksForSubject(String subject) {
+        if (bookMap.containsKey(subject)) { // does the map have subjects
+            ArrayList<Textbook> textbooks = bookMap.get(subject); // getting the list of textbooks
+            if (textbooks.isEmpty()) {
+                JOptionPane.showMessageDialog(mainPanel,"No books available for subject: " + subject, 
+                            "No Books", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                StringBuilder bookList = new StringBuilder("Books available for " + subject + ":\n");
+                int index = 1;
+                for (Textbook book : textbooks) {
+                    bookList.append(index).append(". ").append(book.getTitle()).append("\n");
+                }
+                JOptionPane.showMessageDialog(mainPanel, bookList.toString(), "Books List", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject, "No Books", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     private JPanel createListPanel() {
