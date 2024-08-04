@@ -2,7 +2,6 @@ package ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 
 import model.Textbook;
 
@@ -21,7 +20,7 @@ public class HomeGui extends JFrame {
         bookMap = new HashMap<>();
         JFrame frame = new JFrame("Textbook Rental Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600,400);
+        frame.setSize(600, 400);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         JPanel homePanel = createHomePanel();
@@ -100,10 +99,10 @@ public class HomeGui extends JFrame {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(10, 10));
 
-        panel.add(createRentNorthPanel(), BorderLayout.NORTH);      
-        panel.add(createRentSubjectPanel(), BorderLayout.CENTER); 
-        panel.add(createBackButton(), BorderLayout.SOUTH); 
-        return panel; 
+        panel.add(createRentNorthPanel(), BorderLayout.NORTH);
+        panel.add(createRentSubjectPanel(), BorderLayout.CENTER);
+        panel.add(createBackButton(), BorderLayout.SOUTH);
+        return panel;
     }
 
     private JButton createBackButton() {
@@ -119,7 +118,7 @@ public class HomeGui extends JFrame {
 
     private JPanel createRentNorthPanel() {
         JPanel northPanel = new JPanel(new GridLayout(2, 1, 5, 5));
-        JPanel namePanel = new JPanel(new FlowLayout()); 
+        JPanel namePanel = new JPanel(new FlowLayout());
         JLabel nameLabel = new JLabel("Please enter your name:");
         JTextField nameField = new JTextField(20);
 
@@ -155,7 +154,6 @@ public class HomeGui extends JFrame {
         subjectPanel.add(statisticsButton);
         return subjectPanel;
     }
-    
 
     private JPanel createListPanel() {
         JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
@@ -166,14 +164,14 @@ public class HomeGui extends JFrame {
 
     private JTextField[] addListFields(JPanel panel) {
         JLabel[] labels = {
-            new JLabel("Title:"), new JLabel("Author:"),
-            new JLabel("Subject:"), new JLabel("Price:"),
-            new JLabel("Condition:")
+                new JLabel("Title:"), new JLabel("Author:"),
+                new JLabel("Subject:"), new JLabel("Price:"),
+                new JLabel("Condition:")
         };
         JTextField[] fields = {
-            new JTextField(), new JTextField(),
-            new JTextField(), new JTextField(),
-            new JTextField()
+                new JTextField(), new JTextField(),
+                new JTextField(), new JTextField(),
+                new JTextField()
         };
         for (int i = 0; i < labels.length; i++) {
             panel.add(labels[i]);
@@ -196,8 +194,8 @@ public class HomeGui extends JFrame {
                 if (!bookMap.containsKey(subject)) { // are there textbooks of selected subject?
                     bookMap.put(subject, new ArrayList<Textbook>());
                 }
-                bookMap.get(subject).add(textbook); //otherwise just add to already existing list
-                JOptionPane.showMessageDialog(panel, "New Rental Listing Successfully Created!", 
+                bookMap.get(subject).add(textbook); // otherwise just add to already existing list
+                JOptionPane.showMessageDialog(panel, "New Rental Listing Successfully Created!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
                 for (JTextField field : fields) {
                     field.setText("");
@@ -216,27 +214,53 @@ public class HomeGui extends JFrame {
         JLabel subjectLabel = new JLabel("Subject:");
         JTextField subjectField = new JTextField();
 
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String title = titleField.getText();
-                String subject = subjectField.getText();
-                // Logic to search for the book
-                System.out.println("Searching for book: " + title + " in subject: " + subject);
-            }
-        });
+        JButton searchButton = createSearchFunction(titleField, subjectField, panel);
 
         panel.add(titleLabel);
         panel.add(titleField);
         panel.add(subjectLabel);
         panel.add(subjectField);
-        panel.add(new JLabel()); 
+        panel.add(new JLabel());
         panel.add(searchButton);
-        panel.add(new JLabel()); 
+        panel.add(new JLabel());
         panel.add(createBackButton());
 
         return panel;
     }
 
+    private JButton createSearchFunction(JTextField titleField, JTextField subjectField, JPanel panel) {
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleSearchAction(titleField, subjectField, panel);
+            }
+        });
+        return searchButton;
+    }
+
+    private void handleSearchAction(JTextField titleField, JTextField subjectField, JPanel panel) {
+        String title = titleField.getText();
+        String subject = subjectField.getText();
+        if (bookMap.containsKey(subject)) {
+            ArrayList<Textbook> subjectBooks = bookMap.get(subject);
+            boolean found = false;
+
+            for (Textbook t : subjectBooks) {
+                if (t.getTitle().equalsIgnoreCase(title)) {
+                    JOptionPane.showMessageDialog(panel, "Book found: " + t.getTitle(),
+                            "Success", JOptionPane.INFORMATION_MESSAGE);
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                JOptionPane.showMessageDialog(panel, "Book not found.",
+                        "Failure", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(panel, "Subject not found.",
+                    "Failure", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }
