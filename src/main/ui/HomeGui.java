@@ -100,19 +100,43 @@ public class HomeGui extends JFrame {
     private JPanel createRentPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(10, 10));
-        JPanel northPanel = new JPanel();
-        northPanel.setLayout(new GridLayout(2, 1, 5, 5));
+
+        panel.add(createRentNorthPanel(), BorderLayout.NORTH);      
+        panel.add(createRentSubjectPanel(), BorderLayout.CENTER); 
+        panel.add(createBackButton(), BorderLayout.SOUTH); 
+        return panel; 
+    }
+
+    private JButton createBackButton() {
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardLayout.show(mainPanel, "Home");
+            }
+        });
+        return backButton;
+    }
+
+    private JPanel createRentNorthPanel() {
+        JPanel northPanel = new JPanel(new GridLayout(2, 1, 5, 5));
         JPanel namePanel = new JPanel(new FlowLayout()); 
         JLabel nameLabel = new JLabel("Please enter your name:");
         JTextField nameField = new JTextField(20);
+
         namePanel.add(nameLabel);
         namePanel.add(nameField);
+
         JLabel subjectLabel = new JLabel("Select a Subject", JLabel.CENTER);
         northPanel.add(namePanel);
         northPanel.add(subjectLabel);
-        panel.add(northPanel, BorderLayout.NORTH);
+        return northPanel;
+    }
+
+    private JPanel createRentSubjectPanel() {
         JPanel subjectPanel = new JPanel();
-        subjectPanel.setLayout(new GridLayout(4, 2, 10, 10)); // 4 rows, 2 columns, with a 10-pixel gap
+        subjectPanel.setLayout(new GridLayout(4, 2, 10, 10));
+
         JButton mathButton = new JButton("Math");
         JButton frenchButton = new JButton("French");
         JButton chemistryButton = new JButton("Chemistry");
@@ -121,6 +145,7 @@ public class HomeGui extends JFrame {
         JButton physicsButton = new JButton("Physics");
         JButton biologyButton = new JButton("Biology");
         JButton statisticsButton = new JButton("Statistics");
+
         subjectPanel.add(mathButton);
         subjectPanel.add(frenchButton);
         subjectPanel.add(chemistryButton);
@@ -129,63 +154,48 @@ public class HomeGui extends JFrame {
         subjectPanel.add(physicsButton);
         subjectPanel.add(biologyButton);
         subjectPanel.add(statisticsButton);
-        panel.add(subjectPanel, BorderLayout.CENTER);
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Home");
-            }
-        });
-        panel.add(backButton, BorderLayout.SOUTH);
-        return panel;
+        return subjectPanel;
     }
     
 
     private JPanel createListPanel() {
         JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
-        JLabel titleLabel = new JLabel("Title:");
-        JTextField titleField = new JTextField();
-        JLabel authorLabel = new JLabel("Author:");
-        JTextField authorField = new JTextField();
-        JLabel subjectLabel = new JLabel("Subject:");
-        JTextField subjectField = new JTextField();
-        JLabel priceLabel = new JLabel("Price:");
-        JTextField priceField = new JTextField();
-        JLabel conditionLabel = new JLabel("Condition:");
-        JTextField conditionField = new JTextField();
+        JTextField[] fields = addListFields(panel);
+        addListButtons(panel, fields);
+        return panel;
+    }
+
+    private JTextField[] addListFields(JPanel panel) {
+        JLabel[] labels = {
+            new JLabel("Title:"), new JLabel("Author:"),
+            new JLabel("Subject:"), new JLabel("Price:"),
+            new JLabel("Condition:")
+        };
+        JTextField[] fields = {
+            new JTextField(), new JTextField(),
+            new JTextField(), new JTextField(),
+            new JTextField()
+        };
+        for (int i = 0; i < labels.length; i++) {
+            panel.add(labels[i]);
+            panel.add(fields[i]);
+        }
+        return fields;
+    }
+
+    private void addListButtons(JPanel panel, JTextField[] fields) {
         JButton submitButton = new JButton("Create Listing");
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("New Rental Listing Successfully Created!");
-                titleField.setText("");
-                authorField.setText("");
-                subjectField.setText("");
-                priceField.setText("");
-                conditionField.setText("");
+                for (JTextField field : fields) {
+                    field.setText("");
                 }
-            });
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Home");
             }
         });
-        panel.add(titleLabel);
-        panel.add(titleField);
-        panel.add(authorLabel);
-        panel.add(authorField);
-        panel.add(subjectLabel);
-        panel.add(subjectField);
-        panel.add(priceLabel);
-        panel.add(priceField);
-        panel.add(conditionLabel);
-        panel.add(conditionField);
         panel.add(submitButton);
-        panel.add(backButton);   
-        return panel;
+        panel.add(createBackButton());
     }
 
     private JPanel createSearchPanel() {
@@ -207,14 +217,6 @@ public class HomeGui extends JFrame {
             }
         });
 
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cardLayout.show(mainPanel, "Home");
-            }
-        });
-
         panel.add(titleLabel);
         panel.add(titleField);
         panel.add(subjectLabel);
@@ -222,7 +224,7 @@ public class HomeGui extends JFrame {
         panel.add(new JLabel()); 
         panel.add(searchButton);
         panel.add(new JLabel()); 
-        panel.add(backButton);
+        panel.add(createBackButton());
 
         return panel;
     }
