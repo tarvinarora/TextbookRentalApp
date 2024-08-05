@@ -31,11 +31,13 @@ public class HomeGui extends JFrame {
         JPanel rentPanel = createRentPanel();
         JPanel listPanel = createListPanel();
         JPanel searchPanel = createSearchPanel();
+        JPanel viewWishlistPanel = createViewWishlistPanel();
         JPanel confirmRentalPanel = createConfirmRentalPanel();
         mainPanel.add(homePanel, "Home");
         mainPanel.add(rentPanel, "Rent");
         mainPanel.add(listPanel, "List");
         mainPanel.add(searchPanel, "Search");
+        mainPanel.add(viewWishlistPanel, "ViewWishlist");
         mainPanel.add(confirmRentalPanel, "ConfirmRental");
         
         frame.add(mainPanel);
@@ -44,7 +46,7 @@ public class HomeGui extends JFrame {
 
     private JPanel createHomePanel() {
         JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1, 10, 10));
+        panel.setLayout(new GridLayout(5, 1, 10, 10));
 
         JButton rentButton = createRentButton();
         JButton listButton = createListButton();
@@ -365,7 +367,53 @@ public class HomeGui extends JFrame {
     }
 
     private JPanel createViewWishlistPanel() {
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        
+        JPanel panel = new JPanel(new GridLayout(3, 1, 10, 10));
+        JPanel namePanel = new JPanel(new FlowLayout());
+        JLabel nameLabel = new JLabel("Enter Buyer Name:");
+        JTextField nameField = new JTextField(20);
+        namePanel.add(nameLabel);
+        namePanel.add(nameField);
+
+        JButton viewButton = new JButton("View Wishlist");
+        viewButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String buyerName = nameField.getText();
+                if (buyerName.isEmpty()) {
+                    JOptionPane.showMessageDialog(panel, "Please enter a buyer name.",
+                            "Name Required", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    viewWishlist(buyerName);
+                }
+            }
+        });
+
+        panel.add(namePanel, BorderLayout.NORTH);
+        panel.add(viewButton, BorderLayout.CENTER);
+        panel.add(createBackButton(), BorderLayout.SOUTH);
+
+        return panel;
+    }
+
+    private void viewWishlist(String buyerName) {
+        Buyer buyer = getBuyerByName(buyerName);
+        if (buyer == null) {
+            JOptionPane.showMessageDialog(mainPanel, "Buyer not found.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            StringBuilder wishlist = new StringBuilder("Wishlist for " + buyerName + ":\n");
+            for (Textbook book : buyer.getWishlist()) {
+                wishlist.append(book.getTitle()).append("\n");
+            }
+            JOptionPane.showMessageDialog(mainPanel, wishlist.toString(), "Wishlist", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    private Buyer getBuyerByName(String buyerName) {
+        // This method should retrieve the Buyer object based on the name.
+        // For simplicity, I'm using the currentBuyer object, but you should adapt it to retrieve the correct Buyer object.
+        if (currentBuyer.getBuyerName().equalsIgnoreCase(buyerName)) {
+            return currentBuyer;
+        }
+        return null;
     }
 }
