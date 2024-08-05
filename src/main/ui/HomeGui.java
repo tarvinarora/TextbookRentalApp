@@ -409,8 +409,6 @@ public class HomeGui extends JFrame {
     }
 
     private Buyer getBuyerByName(String buyerName) {
-        // This method should retrieve the Buyer object based on the name.
-        // For simplicity, I'm using the currentBuyer object, but you should adapt it to retrieve the correct Buyer object.
         if (currentBuyer.getBuyerName().equalsIgnoreCase(buyerName)) {
             return currentBuyer;
         }
