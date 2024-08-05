@@ -11,6 +11,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class HomeGui extends JFrame {
 
     private CardLayout cardLayout;
@@ -18,10 +24,16 @@ public class HomeGui extends JFrame {
     private HashMap<String, ArrayList<Textbook>> bookMap; // key:Subject; value: list of textbooks
     private Buyer currentBuyer;
     private JTextField nameField;
+    private static final String JSON_STORE = "./data/application_state.json";
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     public HomeGui() {
         bookMap = new HashMap<>();
         currentBuyer = new Buyer();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+
         JFrame frame = new JFrame("Textbook Rental Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(600, 400);
@@ -39,9 +51,37 @@ public class HomeGui extends JFrame {
         mainPanel.add(searchPanel, "Search");
         mainPanel.add(viewWishlistPanel, "ViewWishlist");
         mainPanel.add(confirmRentalPanel, "ConfirmRental");
+
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                int response = JOptionPane.showConfirmDialog(frame, 
+                        "Do you want to save your data before exiting?", "Save Data",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    saveBuyer(); 
+                }
+                System.exit(0);
+            }
+        });
+
         
         frame.add(mainPanel);
         frame.setVisible(true);
+    }
+
+    private void saveBuyer() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(currentBuyer);
+            jsonWriter.close();
+            JOptionPane.showMessageDialog(mainPanel, "Saved " + currentBuyer.getBuyerName() + "'s wishlist to " + JSON_STORE);
+        } catch (FileNotFoundException e) {
+            JOptionPane.showMessageDialog(mainPanel, "Unable to write to file: " + JSON_STORE,
+                    "Save Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     private JPanel createHomePanel() {
@@ -111,6 +151,13 @@ public class HomeGui extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int response = JOptionPane.showConfirmDialog(mainPanel, 
+                        "Do you want to save your data before exiting?", "Save Data",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE);
+                if (response == JOptionPane.YES_OPTION) {
+                    saveBuyer();
+                }
                 System.exit(0);
             }
         });
