@@ -1,7 +1,14 @@
 package persistence;
 
 import model.Buyer;
+import model.Textbook;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.io.*;
 
@@ -24,9 +31,11 @@ public class JsonWriter {
     }
 
     // MODIFIES: this
-    // EFFECTS: writes JSON representation of buyer to file
-    public void write(Buyer b) {
-        JSONObject json = b.toJson();
+    // EFFECTS: writes JSON representation of application state to file
+    public void write(Map<String, Object> state) {
+        JSONObject json = new JSONObject();
+        json.put("buyers", toJsonBuyers((HashMap<String, Buyer>) state.get("buyers")));
+        json.put("bookMap", toJsonBookMap((HashMap<String, ArrayList<Textbook>>) state.get("bookMap")));
         saveToFile(json.toString(TAB));
     }
 
@@ -41,5 +50,35 @@ public class JsonWriter {
     private void saveToFile(String json) {
         writer.print(json);
     }
+
+    // MODIFIES: this
+    // EFFECTS: converts buyers map to JSON object
+    private JSONObject toJsonBuyers(HashMap<String, Buyer> buyers) {
+        JSONObject jsonObject = new JSONObject();
+        if (buyers != null) {
+            for (Map.Entry<String, Buyer> entry : buyers.entrySet()) {
+                jsonObject.put(entry.getKey(), entry.getValue().toJson());
+            }
+        }
+        return jsonObject;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: converts book map to JSON object
+    private JSONObject toJsonBookMap(HashMap<String, ArrayList<Textbook>> bookMap) {
+        JSONObject jsonObject = new JSONObject();
+        if (bookMap != null) {
+            for (Map.Entry<String, ArrayList<Textbook>> entry : bookMap.entrySet()) {
+                JSONArray jsonArray = new JSONArray();
+                for (Textbook textbook : entry.getValue()) {
+                    jsonArray.put(textbook.toJson());
+                }
+                jsonObject.put(entry.getKey(), jsonArray);
+            }
+        }
+        return jsonObject;
+    }
+
+
 }
 

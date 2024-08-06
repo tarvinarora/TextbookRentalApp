@@ -7,6 +7,7 @@ import model.Textbook;
 import model.Buyer;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,17 +23,20 @@ public class HomeGui extends JFrame {
     private CardLayout cardLayout;
     private JPanel mainPanel;
     private HashMap<String, ArrayList<Textbook>> bookMap; // key:Subject; value: list of textbooks
+    private HashMap<String, Buyer> buyers; // key: BuyerName; value: Buyer object
     private Buyer currentBuyer;
     private JTextField nameField;
-    private static final String JSON_STORE = "./data/application_state.json";
+    private static final String JSON_STORE = "./data/data.json";
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
     public HomeGui() {
         bookMap = new HashMap<>();
+        buyers = new HashMap<>();
         currentBuyer = new Buyer();
         jsonWriter = new JsonWriter(JSON_STORE);
         jsonReader = new JsonReader(JSON_STORE);
+        promptLoadState();
 
         JFrame frame = new JFrame("Textbook Rental Application");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,7 +64,7 @@ public class HomeGui extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
-                    saveBuyer(); 
+                    saveState(); 
                 }
                 System.exit(0);
             }
@@ -71,17 +75,46 @@ public class HomeGui extends JFrame {
         frame.setVisible(true);
     }
 
-    private void saveBuyer() {
+    //EFFECTS: checks is user wants to load state of application, 
+    //         if YES then load the state, else continue with app
+    private void promptLoadState() {
+        int option = JOptionPane.showConfirmDialog(
+            this,
+            "Do you want to load the previous state of the application?",
+            "Load State",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+    );
+    if (option == JOptionPane.YES_OPTION) {
+        loadState();
+    }
+    }
+
+    private void loadState() {
+        try {
+            HashMap<String, Object> state = jsonReader.read();
+            buyers = (HashMap<String, Buyer>) state.get("buyers");
+            bookMap = (HashMap<String, ArrayList<Textbook>>) state.get("bookMap");
+            System.out.println("Loaded state from " + JSON_STORE);
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
+        }
+    }
+
+
+    private void saveState() {
         try {
             jsonWriter.open();
-            jsonWriter.write(currentBuyer);
+            HashMap<String, Object> state = new HashMap<>();
+            state.put("buyers", buyers);
+            state.put("bookMap", bookMap);
+
+            jsonWriter.write(state);
             jsonWriter.close();
-            JOptionPane.showMessageDialog(mainPanel, "Saved " + currentBuyer.getBuyerName() + "'s wishlist to " + JSON_STORE);
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(mainPanel, "Unable to write to file: " + JSON_STORE,
+            JOptionPane.showMessageDialog(mainPanel, "Unable to save data.",
                     "Save Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }
 
     private JPanel createHomePanel() {
@@ -156,7 +189,7 @@ public class HomeGui extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
-                    saveBuyer();
+                    saveState();
                 }
                 System.exit(0);
             }
@@ -224,7 +257,14 @@ public class HomeGui extends JFrame {
                     JOptionPane.showMessageDialog(mainPanel, "Please enter your name first.",
                             "Name Required", JOptionPane.WARNING_MESSAGE);
                 } else {
-                    currentBuyer.setBuyerName(nameField.getText()); // Set the buyer name
+                    String buyerName = nameField.getText();
+                    if (!buyers.containsKey(buyerName)) { // if the name doesn't already exist
+                        currentBuyer = new Buyer(buyerName); // create a new buyer 
+                        buyers.put(buyerName, currentBuyer); // add the new buyer to the buyers list
+                    } else {
+                        currentBuyer = buyers.get(buyerName); // retrieve existing buyer
+                    }
+
                     displayBooksForSubject(subject);
                 }
             }
@@ -443,22 +483,15 @@ public class HomeGui extends JFrame {
     }
 
     private void viewWishlist(String buyerName) {
-        Buyer buyer = getBuyerByName(buyerName);
+        Buyer buyer = buyers.get(buyerName); // retrieve the buyer from the buyers map
         if (buyer == null) {
             JOptionPane.showMessageDialog(mainPanel, "Buyer not found.", "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            StringBuilder wishlist = new StringBuilder("Wishlist for " + buyerName + ":\n");
+        } else { // if the buyer exists
+            StringBuilder wishlist = new StringBuilder("Wishlist for " + buyerName + ":\n"); // making wishlist for that buyer
             for (Textbook book : buyer.getWishlist()) {
                 wishlist.append(book.getTitle()).append("\n");
             }
             JOptionPane.showMessageDialog(mainPanel, wishlist.toString(), "Wishlist", JOptionPane.INFORMATION_MESSAGE);
         }
-    }
-
-    private Buyer getBuyerByName(String buyerName) {
-        if (currentBuyer.getBuyerName().equalsIgnoreCase(buyerName)) {
-            return currentBuyer;
-        }
-        return null;
     }
 }

@@ -8,9 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import persistence.JsonReader;
-import persistence.JsonWriter;
-import java.io.IOException;
+// import persistence.JsonReader;
+// import persistence.JsonWriter;
+// import java.io.IOException;
 
 
 public class HomeMenu {
@@ -25,9 +25,9 @@ public class HomeMenu {
     private List<Textbook> physbooks;
     private List<Textbook> biobooks;
     private List<Textbook> statbooks;
-    private JsonWriter jsonWriter;
-    private JsonReader jsonReader;
-    private static final String JSON_STORE = "./data/wishList.json";
+    // private JsonWriter jsonWriter;
+    // private JsonReader jsonReader;
+    // private static final String JSON_STORE = "./data/wishList.json";
     private Buyer buyer;
 
     public HomeMenu() throws FileNotFoundException {
@@ -41,8 +41,8 @@ public class HomeMenu {
         this.biobooks = new ArrayList<>();
         this.statbooks = new ArrayList<>();
         this.scanner = new Scanner(System.in);
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        // jsonWriter = new JsonWriter(JSON_STORE);
+        // jsonReader = new JsonReader(JSON_STORE);
         buyer = new Buyer();
 
         System.out.println("Welcome to TextXChange!");
@@ -82,12 +82,12 @@ public class HomeMenu {
             case "d":
                 editWishlist();
                 break;
-            case "e":
-                saveWishlist();
-                break;
-            case "f":
-                loadWishlist();
-                break;
+            // case "e":
+            //     saveWishlist();
+            //     break;
+            // case "f":
+            //     loadWishlist();
+            //     break;
             default:
                 System.out.println("Incorrect selection. Please try again!");
         }
@@ -328,32 +328,32 @@ public class HomeMenu {
         }
     }
 
-    //EFFECTS: save Buyer's wishlist to file
-    public void saveWishlist() {
-        if (buyer.getBuyerName() == null) {
-            System.out.println("Please enter your name: ");
-            buyer.setBuyerName(scanner.nextLine());
-        }
-        try {
-            jsonWriter.open();
-            jsonWriter.write(buyer);
-            jsonWriter.close();
-            System.out.println("Saved " + buyer.getBuyerName() + "'s Wishlist to " + JSON_STORE);
-        } catch (FileNotFoundException e) {
-            System.out.println("Unable to write to file: " + JSON_STORE);
-        }
-        chooseOptions();
-    }
+    // //EFFECTS: save Buyer's wishlist to file
+    // public void saveWishlist() {
+    //     if (buyer.getBuyerName() == null) {
+    //         System.out.println("Please enter your name: ");
+    //         buyer.setBuyerName(scanner.nextLine());
+    //     }
+    //     try {
+    //         jsonWriter.open();
+    //         jsonWriter.write(buyer);
+    //         jsonWriter.close();
+    //         System.out.println("Saved " + buyer.getBuyerName() + "'s Wishlist to " + JSON_STORE);
+    //     } catch (FileNotFoundException e) {
+    //         System.out.println("Unable to write to file: " + JSON_STORE);
+    //     }
+    //     chooseOptions();
+    // }
 
-    // EFFECTS: load the saved state of the wishlist
-    public void loadWishlist() {
-        try {
-            buyer = jsonReader.read();
-            System.out.println("Loaded " + buyer.getBuyerName() + "'s Wishlist from " + JSON_STORE);
-        } catch (IOException e) {
-            System.out.println("Unable to read from file: " + JSON_STORE);
-        }
-        chooseOptions();
-    }
+    // // EFFECTS: load the saved state of the wishlist
+    // public void loadWishlist() {
+    //     try {
+    //         buyer = jsonReader.read();
+    //         System.out.println("Loaded " + buyer.getBuyerName() + "'s Wishlist from " + JSON_STORE);
+    //     } catch (IOException e) {
+    //         System.out.println("Unable to read from file: " + JSON_STORE);
+    //     }
+    //     chooseOptions();
+    // }
 }
 

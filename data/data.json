@@ -1,0 +1,79 @@
+{
+    "buyers": {
+        "Tarvin": {
+            "wishlisted": [
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 1",
+                    "Author": "",
+                    "Subject": "French"
+                },
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 2",
+                    "Author": "",
+                    "Subject": "French"
+                },
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 3",
+                    "Author": "",
+                    "Subject": "French"
+                }
+            ],
+            "buyerName": "Tarvin"
+        },
+        "Khushi": {
+            "wishlisted": [
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 1",
+                    "Author": "",
+                    "Subject": "French"
+                },
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 2",
+                    "Author": "",
+                    "Subject": "French"
+                },
+                {
+                    "Rental Price": "",
+                    "Condition": "",
+                    "Title": "Tricolore 3",
+                    "Author": "",
+                    "Subject": "French"
+                }
+            ],
+            "buyerName": "Khushi"
+        }
+    },
+    "bookMap": {"French": [
+        {
+            "Rental Price": "",
+            "Condition": "",
+            "Title": "Tricolore 1",
+            "Author": "",
+            "Subject": "French"
+        },
+        {
+            "Rental Price": "",
+            "Condition": "",
+            "Title": "Tricolore 2",
+            "Author": "",
+            "Subject": "French"
+        },
+        {
+            "Rental Price": "",
+            "Condition": "",
+            "Title": "Tricolore 3",
+            "Author": "",
+            "Subject": "French"
+        }
+    ]}
+}

@@ -4,8 +4,11 @@ import model.Textbook;
 import model.Buyer;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -15,50 +18,85 @@ public class JsonWriterTest {
     @Test
     void testWriterInvalidFile() {
         try {
-            Buyer b = new Buyer("Buyer Name");
-            JsonWriter writer = new JsonWriter("./data/my\0illegal:fileName.json");
+            JsonWriter writer = new JsonWriter("data/my\0illegal:fileName.json");
             writer.open();
-            fail("IOException was expected");
-        } catch (IOException e) {
-            // pass
+            fail("Exception should be thrown");
+        } catch (FileNotFoundException e) {
+            // Expected
         }
     }
 
     @Test
-    void testWriterEmptyWishlist() {
+    void testWriterEmptyState() {
         try {
-            Buyer b = new Buyer("Buyer Name");
-            JsonWriter writer = new JsonWriter("./data/testWriterEmptyWishlist.json");
+            // Set up empty state
+            String filePath = "testWriterEmptyState.json";
+            JsonWriter writer = new JsonWriter(filePath);
             writer.open();
-            writer.write(b);
+            writer.write(new HashMap<>());
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterEmptyWishlist.json");
-            b = reader.read();
-            assertEquals("Buyer Name", b.getBuyerName());
-            assertEquals(0, b.getWishlist().size());
+            // Test the reader
+            JsonReader reader = new JsonReader(filePath);
+            HashMap<String, Object> state = reader.read();
+
+            // Check if buyers and bookMap are empty
+            assertTrue(((HashMap<String, Buyer>) state.get("buyers")).isEmpty());
+            assertTrue(((HashMap<String, ArrayList<Textbook>>) state.get("bookMap")).isEmpty());
+
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
     }
 
     @Test
-    void testWriterGeneralWishlist() {
+    void testWriterGeneralState() {
         try {
-            Buyer b = new Buyer("Buyer Name");
-            b.addToWishlist(new Textbook("Title 1", "Author 1", "Subject 1", "Price 1", "Condition 1"));
-            b.addToWishlist(new Textbook("Title 2", "Author 2", "Subject 2", "Price 2", "Condition 2"));
-
-            JsonWriter writer = new JsonWriter("./data/testWriterGeneralWishlist.json");
+            // Set up general state
+            String filePath = "testWriterGeneralState.json";
+            JsonWriter writer = new JsonWriter(filePath);
             writer.open();
-            writer.write(b);
+
+            HashMap<String, Object> state = new HashMap<>();
+            HashMap<String, Buyer> buyers = new HashMap<>();
+            HashMap<String, ArrayList<Textbook>> bookMap = new HashMap<>();
+
+            Buyer buyer = new Buyer("Tarvin");
+            Textbook textbook = new Textbook("Effective Java", "Joshua Bloch", "Computer Science", "10", "New");
+            buyer.addToWishlist(textbook);
+            buyers.put("Tarvin", buyer);
+
+            ArrayList<Textbook> textbooks = new ArrayList<>();
+            textbooks.add(textbook);
+            bookMap.put("Computer Science", textbooks);
+
+            state.put("buyers", buyers);
+            state.put("bookMap", bookMap);
+
+            writer.write(state);
             writer.close();
 
-            JsonReader reader = new JsonReader("./data/testWriterGeneralWishlist.json");
-            b = reader.read();
-            assertEquals("Buyer Name", b.getBuyerName());
-            List<Textbook> wishlisted = b.getWishlist();
-            assertEquals(2, wishlisted.size());
+            // Test the reader
+            JsonReader reader = new JsonReader(filePath);
+            HashMap<String, Object> readState = reader.read();
+
+            // Check if buyers and bookMap are correctly parsed
+            HashMap<String, Buyer> readBuyers = (HashMap<String, Buyer>) readState.get("buyers");
+            assertEquals(1, readBuyers.size());
+            Buyer readBuyer = readBuyers.get("Tarvin");
+            assertNotNull(readBuyer);
+            assertEquals("Tarvin", readBuyer.getBuyerName());
+            assertEquals(1, readBuyer.getWishlist().size());
+            Textbook readTextbook = readBuyer.getWishlist().get(0);
+            assertEquals("Effective Java", readTextbook.getTitle());
+
+            HashMap<String, ArrayList<Textbook>> readBookMap = (HashMap<String, ArrayList<Textbook>>) readState.get("bookMap");
+            assertEquals(1, readBookMap.size());
+            ArrayList<Textbook> readTextbooks = readBookMap.get("Computer Science");
+            assertNotNull(readTextbooks);
+            assertEquals(1, readTextbooks.size());
+            Textbook readBook = readTextbooks.get(0);
+            assertEquals("Effective Java", readBook.getTitle());
 
         } catch (IOException e) {
             fail("Exception should not have been thrown");

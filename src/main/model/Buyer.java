@@ -21,7 +21,7 @@ public class Buyer implements Writable {
     }
     
     public Buyer() {
-        this.buyerName = null;
+        this.buyerName = "";
         this.wishlisted = new ArrayList<>();
     }
 
@@ -48,8 +48,8 @@ public class Buyer implements Writable {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("Buyer Name", buyerName);
-        json.put("Wishlisted", wishlistToJson());
+        json.put("buyerName", buyerName);
+        json.put("wishlisted", wishlistToJson());
         return json;
     }
 

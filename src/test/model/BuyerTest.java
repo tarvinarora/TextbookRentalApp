@@ -19,7 +19,7 @@ public class BuyerTest {
 
     @Test
     void testConstructor() {
-        assertNull(testBuyer.getBuyerName());
+        assertEquals("", testBuyer.getBuyerName());
         assertEquals(0, testBuyer.getWishlist().size());
     }
 

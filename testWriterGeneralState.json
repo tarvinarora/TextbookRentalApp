@@ -1,0 +1,19 @@
+{
+    "buyers": {"Tarvin": {
+        "wishlisted": [{
+            "Rental Price": "10",
+            "Condition": "New",
+            "Title": "Effective Java",
+            "Author": "Joshua Bloch",
+            "Subject": "Computer Science"
+        }],
+        "buyerName": "Tarvin"
+    }},
+    "bookMap": {"Computer Science": [{
+        "Rental Price": "10",
+        "Condition": "New",
+        "Title": "Effective Java",
+        "Author": "Joshua Bloch",
+        "Subject": "Computer Science"
+    }]}
+}
