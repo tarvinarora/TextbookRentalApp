@@ -11,8 +11,9 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 - As a user, I want to be able to add a Listing to a Rental list.
 - As a user, I want to be able to edit any field of the rental listing.
 - As a user, I want to be able to enter the Title, Author, Subject, RentalPrice, and Condition of the textbook. 
-- As a user, I want to be able to add a textbook to my wishlist and save it if I wish. 
-- As a user, I want to be able to load my wishlist from file (if I choose).
+- As a user, I want to be able to add a textbook to my wishlist.
+- As a user, I want to be able to save my application state before I quit the application (if I choose). 
+- As a user, I want to be able to load my application state from the previous session from file (if I choose).
 
 
 
@@ -22,5 +23,40 @@ The primary users of this application are UBC **undergraduate** and **graduate**
 - As a user, I want to be able to return to main menu. 
 - As a user, I want to be able to view if the rental is available or not available. 
 - As a user, I want to be able to rent a textbook. 
+- As a user, I want to be able to view my Wishlist.
+- As a user I want to be able to see my wishlist in my next session(provided I saved and loaded the state correctly)
 - As a user, I want to choose through a catalogue of subjects to find my subject related textbooks. 
-  
+
+#Instructions For Grader
+
+- You can generate the first required action related to the user story "adding multiple Xs to a Y" by:
+1: Clicking on "Rent a Book"
+2: Entering your name
+3: Clicking on the desired subject (please make a listing if no books are found)
+4: Clicking on AddToWishlist
+5: Confirming the title 
+6: Click on "Add Textbook to Wishlist".
+Thereby adding multiple Textbooks to a Buyer(via their wishlists).
+
+- You can generate the second required action related to the user story "adding multiple Xs to a Y" by:
+1. Click on "Search a Book"
+2. Enter the Title
+3. Enter a Subject
+4. Click on "Search"
+Thereby allowing the user to filter through Textbooks to return a desired book. 
+
+Other required action examples include: Rent a Book, Viewing the Wishlist.
+
+
+- You can locate my visual component by:
+Successfully renting a book!
+1. Clicking on "Rent a Book"
+2: Entering your name
+3: Clicking on the desired subject (please make a listing if no books are found)
+4. "Rent"
+5. Entering the title to confirm
+6. Click on Confirm Rental
+"
+- You can save the state of my application by clicking "Yes" after clicking "Exit" or attempting to close the application.
+
+- You can reload the state of my application by clicking "Yes" before the application attempts to open. 
