@@ -443,6 +443,7 @@ public class HomeGui extends JFrame {
                         book.markRented();
                         JOptionPane.showMessageDialog(mainPanel, "Yay, you have rented the book!", "Rental Status",
                                 JOptionPane.INFORMATION_MESSAGE);
+                                showDancingGif();
                     }
                     return;
                 }
@@ -450,6 +451,26 @@ public class HomeGui extends JFrame {
         }
         JOptionPane.showMessageDialog(mainPanel, "No book found with title: " + title, "Rental Status",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private void showDancingGif() {
+        JDialog gifDialog = new JDialog(this, "Renting Book", true);
+        gifDialog.setSize(450, 600);
+        gifDialog.setLocationRelativeTo(this);
+        
+        JLabel gifLabel = new JLabel(new ImageIcon("src/main/resources/icon.jpg"));
+        gifDialog.add(gifLabel);
+        
+        gifDialog.setVisible(true);
+        
+        Timer timer = new Timer(5000, new ActionListener() { 
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gifDialog.dispose();
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     private JPanel confirmAdditionToWishlistPanel() {
