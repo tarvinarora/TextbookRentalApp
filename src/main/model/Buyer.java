@@ -19,7 +19,7 @@ public class Buyer implements Writable {
         this.buyerName = buyerName;
         this.wishlisted = new ArrayList<>();
     }
-    
+
     public Buyer() {
         this.buyerName = "";
         this.wishlisted = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Buyer implements Writable {
     public void addToWishlist(Textbook textbook) {
         if (!wishlisted.contains(textbook)) { // checks for duplicates
             wishlisted.add(textbook);
-        } 
+        }
     }
 
     public List<Textbook> getWishlist() {

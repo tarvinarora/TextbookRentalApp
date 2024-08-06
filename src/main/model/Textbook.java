@@ -21,7 +21,8 @@ public class Textbook implements Writable {
         this.title = title;
         this.author = author;
         this.subject = subject;
-        this.rentalPrice = rentalPrice;;
+        this.rentalPrice = rentalPrice;
+        ;
         this.condition = condition;
         this.status = false;
     }
@@ -60,7 +61,7 @@ public class Textbook implements Writable {
     public String getTitle() {
         return title;
     }
-    
+
     // EFFECTS: returns the author for the textbook
     public String getAuthor() {
         return author;
@@ -99,7 +100,7 @@ public class Textbook implements Writable {
         status = false;
     }
 
-    //EFFECTS: returns whether textbook rental status
+    // EFFECTS: returns whether textbook rental status
     public boolean isRented() {
         return status;
     }
@@ -118,12 +119,16 @@ public class Textbook implements Writable {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
         Textbook textbook = (Textbook) obj;
-        return title.equals(textbook.title) && 
-               author.equals(textbook.author) &&
-               subject.equals(textbook.subject);
+        return title.equals(textbook.title)
+                && author.equals(textbook.author)
+                && subject.equals(textbook.subject);
     }
 
     @Override

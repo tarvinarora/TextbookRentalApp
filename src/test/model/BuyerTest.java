@@ -5,13 +5,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 public class BuyerTest {
 
     private Buyer testBuyer;
     private Textbook testTextbook;
 
-    @BeforeEach 
+    @BeforeEach
     void runBefore() {
         testBuyer = new Buyer();
         testTextbook = new Textbook("Title", "Author", "Math", "9", "good");
@@ -31,9 +30,9 @@ public class BuyerTest {
 
     @Test
     void testaddToWishlist() {
-        testBuyer.addToWishlist(testTextbook);  
+        testBuyer.addToWishlist(testTextbook);
         assertEquals(1, testBuyer.getWishlist().size());
-        testBuyer.addToWishlist(testTextbook);  
+        testBuyer.addToWishlist(testTextbook);
         assertEquals(1, testBuyer.getWishlist().size());
     }
 

@@ -45,8 +45,12 @@ public class JsonReader {
     // EFFECTS: parses workroom from JSON object and returns it
     private HashMap<String, Object> parseState(JSONObject jsonObject) {
         HashMap<String, Object> state = new HashMap<>();
+        state.put("buyers", parseBuyers(jsonObject));
+        state.put("bookMap", parseBookMap(jsonObject));
+        return state;
+    }
 
-        // Parse Buyers
+    private HashMap<String, Buyer> parseBuyers(JSONObject jsonObject) {
         HashMap<String, Buyer> buyers = new HashMap<>();
         if (jsonObject.has("buyers")) {
             JSONObject buyersObject = jsonObject.getJSONObject("buyers");
@@ -56,26 +60,30 @@ public class JsonReader {
                 buyers.put(key, buyer);
             }
         }
-        state.put("buyers", buyers);
+        return buyers;
+    }
 
-        // Parse book map
+    private HashMap<String, ArrayList<Textbook>> parseBookMap(JSONObject jsonObject) {
         HashMap<String, ArrayList<Textbook>> bookMap = new HashMap<>();
         if (jsonObject.has("bookMap")) {
             JSONObject bookMapObject = jsonObject.getJSONObject("bookMap");
             for (String key : bookMapObject.keySet()) {
                 JSONArray textbooksArray = bookMapObject.getJSONArray(key);
-                ArrayList<Textbook> textbooks = new ArrayList<>();
-                for (Object obj : textbooksArray) {
-                    JSONObject textbookObject = (JSONObject) obj;
-                    Textbook textbook = parseTextbook(textbookObject);
-                    textbooks.add(textbook);
-                }
+                ArrayList<Textbook> textbooks = parseTextbooks(textbooksArray);
                 bookMap.put(key, textbooks);
             }
         }
-        state.put("bookMap", bookMap);
+        return bookMap;
+    }
 
-        return state;
+    private ArrayList<Textbook> parseTextbooks(JSONArray textbooksArray) {
+        ArrayList<Textbook> textbooks = new ArrayList<>();
+        for (Object obj : textbooksArray) {
+            JSONObject textbookObject = (JSONObject) obj;
+            Textbook textbook = parseTextbook(textbookObject);
+            textbooks.add(textbook);
+        }
+        return textbooks;
     }
 
     private Buyer parseBuyer(JSONObject jsonObject) {
@@ -104,4 +112,3 @@ public class JsonReader {
     }
 
 }
-

@@ -31,11 +31,7 @@ public class HomeGui extends JFrame {
     private JsonReader jsonReader;
 
     public HomeGui() {
-        bookMap = new HashMap<>();
-        buyers = new HashMap<>();
-        currentBuyer = new Buyer();
-        jsonWriter = new JsonWriter(JSON_STORE);
-        jsonReader = new JsonReader(JSON_STORE);
+        initializeFields();
         promptLoadState();
 
         JFrame frame = new JFrame("Textbook Rental Application");
@@ -43,53 +39,56 @@ public class HomeGui extends JFrame {
         frame.setSize(600, 400);
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        JPanel homePanel = createHomePanel();
-        JPanel rentPanel = createRentPanel();
-        JPanel listPanel = createListPanel();
-        JPanel searchPanel = createSearchPanel();
-        JPanel viewWishlistPanel = createViewWishlistPanel();
-        JPanel confirmRentalPanel = createConfirmRentalPanel();
-        JPanel confirmAdditionToWishlistPanel = confirmAdditionToWishlistPanel();
-        mainPanel.add(homePanel, "Home");
-        mainPanel.add(rentPanel, "Rent");
-        mainPanel.add(listPanel, "List");
-        mainPanel.add(searchPanel, "Search");
-        mainPanel.add(viewWishlistPanel, "ViewWishlist");
-        mainPanel.add(confirmRentalPanel, "ConfirmRental");
-        mainPanel.add(confirmAdditionToWishlistPanel, "ConfirmAdditionToWishlist");
+        addPanelsToMainPanel();
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
-                int response = JOptionPane.showConfirmDialog(frame, 
+                int response = JOptionPane.showConfirmDialog(frame,
                         "Do you want to save your data before exiting?", "Save Data",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (response == JOptionPane.YES_OPTION) {
-                    saveState(); 
+                    saveState();
                 }
                 System.exit(0);
             }
         });
 
-        
         frame.add(mainPanel);
         frame.setVisible(true);
     }
 
-    //EFFECTS: checks is user wants to load state of application, 
-    //         if YES then load the state, else continue with app
+    private void initializeFields() {
+        bookMap = new HashMap<>();
+        buyers = new HashMap<>();
+        currentBuyer = new Buyer();
+        jsonWriter = new JsonWriter(JSON_STORE);
+        jsonReader = new JsonReader(JSON_STORE);
+    }
+
+    private void addPanelsToMainPanel() {
+        mainPanel.add(createHomePanel(), "Home");
+        mainPanel.add(createRentPanel(), "Rent");
+        mainPanel.add(createListPanel(), "List");
+        mainPanel.add(createSearchPanel(), "Search");
+        mainPanel.add(createViewWishlistPanel(), "ViewWishlist");
+        mainPanel.add(createConfirmRentalPanel(), "ConfirmRental");
+        mainPanel.add(confirmAdditionToWishlistPanel(), "ConfirmAdditionToWishlist");
+    }
+
+    // EFFECTS: checks is user wants to load state of application,
+    // if YES then load the state, else continue with app
     private void promptLoadState() {
         int option = JOptionPane.showConfirmDialog(
-            this,
-            "Do you want to load the previous state of the application?",
-            "Load State",
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.QUESTION_MESSAGE
-    );
-    if (option == JOptionPane.YES_OPTION) {
-        loadState();
-    }
+                this,
+                "Do you want to load the previous state of the application?",
+                "Load State",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (option == JOptionPane.YES_OPTION) {
+            loadState();
+        }
     }
 
     private void loadState() {
@@ -102,7 +101,6 @@ public class HomeGui extends JFrame {
             System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
-
 
     private void saveState() {
         try {
@@ -186,7 +184,7 @@ public class HomeGui extends JFrame {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(mainPanel, 
+                int response = JOptionPane.showConfirmDialog(mainPanel,
                         "Do you want to save your data before exiting?", "Save Data",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
@@ -261,7 +259,7 @@ public class HomeGui extends JFrame {
                 } else {
                     String buyerName = nameField.getText();
                     if (!buyers.containsKey(buyerName)) { // if the name doesn't already exist
-                        currentBuyer = new Buyer(buyerName); // create a new buyer 
+                        currentBuyer = new Buyer(buyerName); // create a new buyer
                         buyers.put(buyerName, currentBuyer); // add the new buyer to the buyers list
                     } else {
                         currentBuyer = buyers.get(buyerName); // retrieve existing buyer
@@ -278,8 +276,7 @@ public class HomeGui extends JFrame {
         if (bookMap.containsKey(subject)) { // does the map have subjects
             ArrayList<Textbook> textbooks = bookMap.get(subject); // getting the list of textbooks
             if (textbooks.isEmpty()) {
-                JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject,
-                        "No Books", JOptionPane.INFORMATION_MESSAGE);
+                showNoBooksMessage(subject);
             } else {
                 StringBuilder bookList = new StringBuilder("Books available for " + subject + ":\n");
                 int index = 1;
@@ -289,7 +286,7 @@ public class HomeGui extends JFrame {
                 }
                 int result = JOptionPane.showOptionDialog(mainPanel, bookList.toString(), "Books List",
                         JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-                        new String[] { "Cancel", "Rent", "Add to Wishlist"}, "Rent");
+                        new String[] { "Cancel", "Rent", "Add to Wishlist" }, "Rent");
 
                 if (result == JOptionPane.NO_OPTION) {
                     cardLayout.show(mainPanel, "ConfirmRental");
@@ -298,9 +295,13 @@ public class HomeGui extends JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject, "No Books",
-                    JOptionPane.INFORMATION_MESSAGE);
+            showNoBooksMessage(subject);
         }
+    }
+
+    private void showNoBooksMessage(String subject) {
+        JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject,
+                "No Books", JOptionPane.INFORMATION_MESSAGE);
     }
 
     private JPanel createListPanel() {
@@ -330,29 +331,28 @@ public class HomeGui extends JFrame {
 
     private void addListButtons(JPanel panel, JTextField[] fields) {
         JButton submitButton = new JButton("Create Listing");
-        submitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String title = fields[0].getText();
-                String author = fields[1].getText();
-                String subject = fields[2].getText();
-                String price = fields[3].getText();
-                String condition = fields[4].getText();
-                Textbook textbook = new Textbook(title, author, subject, price, condition);
-                textbook.markNotRented();
-                if (!bookMap.containsKey(subject)) { // are there textbooks of selected subject?
-                    bookMap.put(subject, new ArrayList<Textbook>());
-                }
-                bookMap.get(subject).add(textbook); // otherwise just add to already existing list
-                JOptionPane.showMessageDialog(panel, "New Rental Listing Successfully Created!",
-                        "Success", JOptionPane.INFORMATION_MESSAGE);
-                for (JTextField field : fields) {
-                    field.setText("");
-                }
-            }
-        });
+        submitButton.addActionListener(e -> handleCreateListing(panel, fields));
         panel.add(submitButton);
         panel.add(createBackButton());
+    }
+
+    private void handleCreateListing(JPanel panel, JTextField[] fields) {
+        String title = fields[0].getText();
+        String author = fields[1].getText();
+        String subject = fields[2].getText();
+        String price = fields[3].getText();
+        String condition = fields[4].getText();
+        Textbook textbook = new Textbook(title, author, subject, price, condition);
+        textbook.markNotRented();
+        if (!bookMap.containsKey(subject)) {
+            bookMap.put(subject, new ArrayList<Textbook>());
+        }
+        bookMap.get(subject).add(textbook);
+        JOptionPane.showMessageDialog(panel, "New Rental Listing Successfully Created!",
+                "Success", JOptionPane.INFORMATION_MESSAGE);
+        for (JTextField field : fields) {
+            field.setText("");
+        }
     }
 
     private JPanel createSearchPanel() {
@@ -443,7 +443,7 @@ public class HomeGui extends JFrame {
                         book.markRented();
                         JOptionPane.showMessageDialog(mainPanel, "Yay, you have rented the book!", "Rental Status",
                                 JOptionPane.INFORMATION_MESSAGE);
-                                showDancingGif();
+                        showDancingGif();
                     }
                     return;
                 }
@@ -457,13 +457,13 @@ public class HomeGui extends JFrame {
         JDialog gifDialog = new JDialog(this, "Renting Book", true);
         gifDialog.setSize(450, 600);
         gifDialog.setLocationRelativeTo(this);
-        
+
         JLabel gifLabel = new JLabel(new ImageIcon("src/main/resources/icon.jpg"));
         gifDialog.add(gifLabel);
-        
+
         gifDialog.setVisible(true);
-        
-        Timer timer = new Timer(5000, new ActionListener() { 
+
+        Timer timer = new Timer(5000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gifDialog.dispose();
@@ -484,12 +484,12 @@ public class HomeGui extends JFrame {
                 confirmAdditionToWishlist(titleField.getText());
             }
         });
-    panel.add(titleLabel);
-    panel.add(titleField);
-    panel.add(confirmButton);
-    panel.add(createBackButton());
+        panel.add(titleLabel);
+        panel.add(titleField);
+        panel.add(confirmButton);
+        panel.add(createBackButton());
 
-    return panel;
+        return panel;
     }
 
     private void confirmAdditionToWishlist(String title) {
@@ -546,7 +546,8 @@ public class HomeGui extends JFrame {
         if (buyer == null) {
             JOptionPane.showMessageDialog(mainPanel, "Buyer not found.", "Error", JOptionPane.ERROR_MESSAGE);
         } else { // if the buyer exists
-            StringBuilder wishlist = new StringBuilder("Wishlist for " + buyerName + ":\n"); // making wishlist for that buyer
+            StringBuilder wishlist = new StringBuilder("Wishlist for " + buyerName + ":\n"); // making wishlist for that
+                                                                                             // buyer
             for (Textbook book : buyer.getWishlist()) {
                 wishlist.append(book.getTitle()).append("\n");
             }
