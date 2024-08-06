@@ -1,14 +1,31 @@
 {
     "buyers": {"Tarvin": {
-        "wishlisted": [],
+        "wishlisted": [{
+            "Rental Price": "10",
+            "Condition": "Good",
+            "Title": "Tricolore 1",
+            "Author": "Mathew",
+            "Is Rented": false,
+            "Subject": "French"
+        }],
         "buyerName": "Tarvin"
     }},
-    "bookMap": {"Math": [{
-        "Rental Price": "",
-        "Condition": "",
-        "Title": "Algebra 101",
-        "Author": "",
-        "Is Rented": true,
-        "Subject": "Math"
-    }]}
+    "bookMap": {
+        "French": [{
+            "Rental Price": "10",
+            "Condition": "Good",
+            "Title": "Tricolore 1",
+            "Author": "Mathew",
+            "Is Rented": false,
+            "Subject": "French"
+        }],
+        "Math": [{
+            "Rental Price": "",
+            "Condition": "",
+            "Title": "Algebra 101",
+            "Author": "",
+            "Is Rented": true,
+            "Subject": "Math"
+        }]
+    }
 }

@@ -475,9 +475,14 @@ public class HomeGui extends JFrame {
         for (ArrayList<Textbook> textbooks : bookMap.values()) {
             for (Textbook book : textbooks) {
                 if (book.getTitle().equalsIgnoreCase(title)) {
-                    currentBuyer.addToWishlist(book);
-                    JOptionPane.showMessageDialog(mainPanel, "Book added to wishlist!", "Success",
-                            JOptionPane.INFORMATION_MESSAGE);
+                    if (currentBuyer.getWishlist().contains(book)) {
+                        JOptionPane.showMessageDialog(mainPanel, "Book is already in the wishlist!", "Duplicate",
+                                JOptionPane.WARNING_MESSAGE);
+                    } else {
+                        currentBuyer.addToWishlist(book);
+                        JOptionPane.showMessageDialog(mainPanel, "Book added to wishlist!", "Success",
+                                JOptionPane.INFORMATION_MESSAGE);
+                    }
                     return;
                 }
             }
