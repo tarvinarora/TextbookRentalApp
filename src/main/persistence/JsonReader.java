@@ -59,7 +59,6 @@ public class JsonReader {
         state.put("buyers", buyers);
 
         // Parse book map
-        // Parse book map
         HashMap<String, ArrayList<Textbook>> bookMap = new HashMap<>();
         if (jsonObject.has("bookMap")) {
             JSONObject bookMapObject = jsonObject.getJSONObject("bookMap");
@@ -98,7 +97,10 @@ public class JsonReader {
         String subject = jsonObject.getString("Subject");
         String rentalPrice = jsonObject.getString("Rental Price");
         String condition = jsonObject.getString("Condition");
-        return new Textbook(title, author, subject, rentalPrice, condition);
+        boolean status = jsonObject.getBoolean("Is Rented");
+        Textbook textbook = new Textbook(title, author, subject, rentalPrice, condition);
+        textbook.setRented(status);
+        return textbook;
     }
 
 }

@@ -5,7 +5,8 @@
             "Condition": "New",
             "Title": "Effective Java",
             "Author": "JoshuaB",
-            "Subject": "Programming"
+            "Subject": "Computer Science",
+            "Is Rented": false
         }],
         "buyerName": "Tarvin"
     }},
@@ -14,6 +15,7 @@
         "Condition": "New",
         "Title": "Effective Java",
         "Author": "JoshuaB",
-        "Subject": "Programming"
+        "Subject": "Computer Science",
+        "Is Rented": false
     }]}
 }

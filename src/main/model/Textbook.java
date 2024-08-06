@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -21,6 +23,7 @@ public class Textbook implements Writable {
         this.subject = subject;
         this.rentalPrice = rentalPrice;;
         this.condition = condition;
+        this.status = false;
     }
 
     // MODIFIES: this
@@ -85,6 +88,12 @@ public class Textbook implements Writable {
     }
 
     // MODIFIES: this
+    // EFFECTS: sets the rental status of the textbook
+    public void setRented(boolean status) {
+        this.status = status;
+    }
+
+    // MODIFIES: this
     // EFFECTS: marks the textbook as not rented
     public void markNotRented() {
         status = false;
@@ -103,7 +112,23 @@ public class Textbook implements Writable {
         json.put("Subject", subject);
         json.put("Rental Price", rentalPrice);
         json.put("Condition", condition);
+        json.put("Is Rented", status);
         return json;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Textbook textbook = (Textbook) obj;
+        return title.equals(textbook.title) && 
+               author.equals(textbook.author) &&
+               subject.equals(textbook.subject);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, author, subject, rentalPrice, condition);
     }
 
 }

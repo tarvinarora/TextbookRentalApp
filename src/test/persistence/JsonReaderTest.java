@@ -66,6 +66,7 @@ public class JsonReaderTest {
             textbookJson.put("Subject", "Computer Science");
             textbookJson.put("Rental Price", "10");
             textbookJson.put("Condition", "New");
+            textbookJson.put("Is Rented", false);
             wishlist.put(textbookJson);
 
             buyerJson.put("wishlisted", wishlist);

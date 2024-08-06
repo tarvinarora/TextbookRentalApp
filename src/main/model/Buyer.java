@@ -38,7 +38,9 @@ public class Buyer implements Writable {
 
     // EFFECTS: adds a wishlist textbook to a List of Textbooks
     public void addToWishlist(Textbook textbook) {
-        wishlisted.add(textbook);
+        if (!wishlisted.contains(textbook)) { // checks for duplicates
+            wishlisted.add(textbook);
+        } 
     }
 
     public List<Textbook> getWishlist() {

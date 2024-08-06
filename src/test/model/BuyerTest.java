@@ -33,6 +33,8 @@ public class BuyerTest {
     void testaddToWishlist() {
         testBuyer.addToWishlist(testTextbook);  
         assertEquals(1, testBuyer.getWishlist().size());
+        testBuyer.addToWishlist(testTextbook);  
+        assertEquals(1, testBuyer.getWishlist().size());
     }
 
 }
