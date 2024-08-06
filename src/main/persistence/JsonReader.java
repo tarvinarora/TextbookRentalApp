@@ -50,6 +50,8 @@ public class JsonReader {
         return state;
     }
 
+    // REQUIRES: jsonObject != null
+    // EFFECTS: parses the given JSONObject to create and return a HashMap of buyers
     private HashMap<String, Buyer> parseBuyers(JSONObject jsonObject) {
         HashMap<String, Buyer> buyers = new HashMap<>();
         if (jsonObject.has("buyers")) {
@@ -63,6 +65,9 @@ public class JsonReader {
         return buyers;
     }
 
+    // REQUIRES: jsonObject != null
+    // EFFECTS: parses the given JSONObject to create and return a HashMap of book
+    // lists
     private HashMap<String, ArrayList<Textbook>> parseBookMap(JSONObject jsonObject) {
         HashMap<String, ArrayList<Textbook>> bookMap = new HashMap<>();
         if (jsonObject.has("bookMap")) {
@@ -76,6 +81,9 @@ public class JsonReader {
         return bookMap;
     }
 
+    // REQUIRES: textbooksArray != null
+    // EFFECTS: parses the given JSONArray to create and return an ArrayList of
+    // Textbook objects
     private ArrayList<Textbook> parseTextbooks(JSONArray textbooksArray) {
         ArrayList<Textbook> textbooks = new ArrayList<>();
         for (Object obj : textbooksArray) {
@@ -86,6 +94,7 @@ public class JsonReader {
         return textbooks;
     }
 
+    // REQUIRES: jsonObject != null
     private Buyer parseBuyer(JSONObject jsonObject) {
         String buyerName = jsonObject.getString("buyerName");
         Buyer buyer = new Buyer(buyerName);

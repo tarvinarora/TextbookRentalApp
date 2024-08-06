@@ -20,6 +20,7 @@ public class Buyer implements Writable {
         this.wishlisted = new ArrayList<>();
     }
 
+    // EFFECTS: constructs a buyer with a buyerName and an empty Wishlist
     public Buyer() {
         this.buyerName = "";
         this.wishlisted = new ArrayList<>();
@@ -43,6 +44,7 @@ public class Buyer implements Writable {
         }
     }
 
+    // EFFECTS: returns the Buyer's wishlist
     public List<Textbook> getWishlist() {
         return Collections.unmodifiableList(wishlisted);
     }

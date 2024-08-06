@@ -18,6 +18,7 @@ import persistence.JsonWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+//Represents the GUI for the Textbook Rental Application
 public class HomeGui extends JFrame {
 
     private CardLayout cardLayout;
@@ -30,6 +31,9 @@ public class HomeGui extends JFrame {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
+    // MODIFIES: this
+    // EFFECTS: sets up the panels for the entire application, prompts users to save
+    // application before closing
     public HomeGui() {
         initializeFields();
         promptLoadState();
@@ -59,6 +63,7 @@ public class HomeGui extends JFrame {
         frame.setVisible(true);
     }
 
+    // EFFECTS: initializes fields required for the GUI
     private void initializeFields() {
         bookMap = new HashMap<>();
         buyers = new HashMap<>();
@@ -67,6 +72,9 @@ public class HomeGui extends JFrame {
         jsonReader = new JsonReader(JSON_STORE);
     }
 
+    // MODIFIES: this.mainPanel
+    // EFFECTS: adds the panels to the application, where each panel is a different
+    // screen
     private void addPanelsToMainPanel() {
         mainPanel.add(createHomePanel(), "Home");
         mainPanel.add(createRentPanel(), "Rent");
@@ -91,6 +99,8 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // MODIFIES: this.buyers, this.bookMap
+    // EFFECTS: loads the state from previous user session, or prints error message
     private void loadState() {
         try {
             HashMap<String, Object> state = jsonReader.read();
@@ -102,6 +112,9 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // MODIFIES: this.mainPanel, jsonWriter
+    // EFFECTS: Saves the current state of the application, displays error dialog if
+    // saving fails
     private void saveState() {
         try {
             jsonWriter.open();
@@ -117,6 +130,7 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // EFFECTS: creates the home panel for the GUI
     private JPanel createHomePanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 1, 10, 10));
@@ -135,6 +149,8 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // EFFECTS: Creates and returns a JButton labeled "Rent a Book".
+    // The button will show the "Rent" panel when clicked.
     private JButton createRentButton() {
         JButton rentButton = new JButton("Rent a Book");
         rentButton.addActionListener(new ActionListener() {
@@ -146,6 +162,8 @@ public class HomeGui extends JFrame {
         return rentButton;
     }
 
+    // EFFECTS: Creates and returns a JButton labeled "List a Book".
+    // The button will show the "List" panel when clicked.
     private JButton createListButton() {
         JButton listButton = new JButton("List a Book");
         listButton.addActionListener(new ActionListener() {
@@ -157,6 +175,8 @@ public class HomeGui extends JFrame {
         return listButton;
     }
 
+    // EFFECTS: Creates and returns a JButton labeled "Search a Book".
+    // The button will show the "Search" panel when clicked.
     private JButton createSearchButton() {
         JButton searchButton = new JButton("Search a Book");
         searchButton.addActionListener(new ActionListener() {
@@ -168,6 +188,8 @@ public class HomeGui extends JFrame {
         return searchButton;
     }
 
+    // EFFECTS: Creates and returns a JButton labeled "View Wishlist".
+    // The button will show the "ViewWishlist" panel when clicked.
     private JButton createViewWishlistButton() {
         JButton viewWishlistButton = new JButton("View Wishlist");
         viewWishlistButton.addActionListener(new ActionListener() {
@@ -179,6 +201,8 @@ public class HomeGui extends JFrame {
         return viewWishlistButton;
     }
 
+    // EFFECTS: Creates and returns a JButton labeled "Exit".
+    // Prompts user to save data before quitting thw application.
     private JButton createExitButton() {
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
@@ -197,6 +221,7 @@ public class HomeGui extends JFrame {
         return exitButton;
     }
 
+    // EFFECTS: creates and returns rent panel for renting books.
     private JPanel createRentPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(10, 10));
@@ -207,6 +232,7 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // EFFECTS: Button will show Home Panel when clicked
     private JButton createBackButton() {
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
@@ -218,6 +244,8 @@ public class HomeGui extends JFrame {
         return backButton;
     }
 
+    // EFFECTS: adds name, and subject panel of 8 subjects as their respective
+    // buttons
     private JPanel createRentNorthPanel() {
         JPanel northPanel = new JPanel(new GridLayout(2, 1, 5, 5));
         JPanel namePanel = new JPanel(new FlowLayout());
@@ -233,6 +261,7 @@ public class HomeGui extends JFrame {
         return northPanel;
     }
 
+    // EFFECTS: creates a subject panel
     private JPanel createRentSubjectPanel() {
         JPanel subjectPanel = new JPanel();
         subjectPanel.setLayout(new GridLayout(4, 2, 10, 10));
@@ -248,6 +277,12 @@ public class HomeGui extends JFrame {
         return subjectPanel;
     }
 
+    // REQUIRES: subject != null
+    // EFFECTS: helper method to create subject buttons, and validates whetehr name
+    // is entered
+    // if name doesn't already exist, a new buyer is created and buyer is added to
+    // buyer list,
+    // otherwise, existing buyer is retrieved and assigned as currentBuyer
     private JButton createSubjectButton(String subject) {
         JButton subjectButton = new JButton(subject);
         subjectButton.addActionListener(new ActionListener() {
@@ -272,6 +307,10 @@ public class HomeGui extends JFrame {
         return subjectButton;
     }
 
+    // REQUIRES: subject != null
+    // EFFECTS: displays the books for the specified subject, if no books available,
+    // No books message is displayed, otherwise transition to
+    // ConfirmRentalPanel or ConfirmAdditionToWishlistPanel or return to panel
     private void displayBooksForSubject(String subject) {
         if (bookMap.containsKey(subject)) { // does the map have subjects
             ArrayList<Textbook> textbooks = bookMap.get(subject); // getting the list of textbooks
@@ -299,11 +338,14 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // EFFECTS: displays No Books dialog
     private void showNoBooksMessage(String subject) {
         JOptionPane.showMessageDialog(mainPanel, "No books available for subject: " + subject,
                 "No Books", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // EFFECTS: creates and returns panel for Listings, entering book details to
+    // given textfields
     private JPanel createListPanel() {
         JPanel panel = new JPanel(new GridLayout(6, 2, 10, 10));
         JTextField[] fields = addListFields(panel);
@@ -311,6 +353,9 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // MODIFIES: panel
+    // EFFECTS: adds fields for entering book details to the specified panel.
+    // Returns an array of the JTextFields added to the panel.
     private JTextField[] addListFields(JPanel panel) {
         JLabel[] labels = {
                 new JLabel("Title:"), new JLabel("Author:"),
@@ -329,6 +374,8 @@ public class HomeGui extends JFrame {
         return fields;
     }
 
+    // MODIFIES: panel
+    // EFFECTS: adds fields for entering book details to the panel
     private void addListButtons(JPanel panel, JTextField[] fields) {
         JButton submitButton = new JButton("Create Listing");
         submitButton.addActionListener(e -> handleCreateListing(panel, fields));
@@ -336,6 +383,10 @@ public class HomeGui extends JFrame {
         panel.add(createBackButton());
     }
 
+    // MODIFIES: panel, bookMap
+    // EFFECTS: handles the creation of a new textbook listing based on the provided
+    // fields, provides
+    // success message
     private void handleCreateListing(JPanel panel, JTextField[] fields) {
         String title = fields[0].getText();
         String author = fields[1].getText();
@@ -355,6 +406,7 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // EFFECTS: creates and returns a JPanel for searching books
     private JPanel createSearchPanel() {
         JPanel panel = new JPanel(new GridLayout(4, 2, 10, 10));
 
@@ -377,6 +429,9 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // REQUIRES: titleField != null, subjectField != null, panel != null
+    // EFFECTS: handles the search action based on the provided title and subject
+    // fields
     private JButton createSearchFunction(JTextField titleField, JTextField subjectField, JPanel panel) {
         JButton searchButton = new JButton("Search");
         searchButton.addActionListener(new ActionListener() {
@@ -388,6 +443,9 @@ public class HomeGui extends JFrame {
         return searchButton;
     }
 
+    // REQUIRES: titleField != null, subjectField != null, panel != null
+    // EFFECTS: if the book is found, shows a success messageor, otherwise
+    // an error message if not found.
     private void handleSearchAction(JTextField titleField, JTextField subjectField, JPanel panel) {
         String title = titleField.getText();
         String subject = subjectField.getText();
@@ -413,6 +471,7 @@ public class HomeGui extends JFrame {
         }
     }
 
+    // EFFECTS: creates and returns a JPanel for confirming a rental
     private JPanel createConfirmRentalPanel() {
         JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
         JLabel titleLabel = new JLabel("Please Enter the title of the book you want to rent: ");
@@ -432,6 +491,10 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // REQUIRES: title != null
+    // EFFECTS: Confirms the rental of a book with the specified title.
+    // shows a message indicating the rental status.
+    // if the book is rented successfully, displays a dancing GIF.
     private void confirmRental(String title) {
         for (ArrayList<Textbook> textbooks : bookMap.values()) {
             for (Textbook book : textbooks) {
@@ -453,6 +516,7 @@ public class HomeGui extends JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    // EFFECTS: displays a dialog with a dancing GIF for 5 seconds
     private void showDancingGif() {
         JDialog gifDialog = new JDialog(this, "Renting Book", true);
         gifDialog.setSize(450, 600);
@@ -473,6 +537,8 @@ public class HomeGui extends JFrame {
         timer.start();
     }
 
+    // EFFECTS: creates and returns a JPanel for confirming the addition of a book
+    // to the wishlist
     private JPanel confirmAdditionToWishlistPanel() {
         JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
         JLabel titleLabel = new JLabel("Please enter the Title of the book you want to Add to Wishlist: ");
@@ -492,6 +558,10 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // REQUIRES: title != null
+    // MODIFIES: currentBuyer
+    // EFFECTS: confirms the addition of a book with the specified title to the
+    // current buyer's wishlist
     private void confirmAdditionToWishlist(String title) {
         for (ArrayList<Textbook> textbooks : bookMap.values()) {
             for (Textbook book : textbooks) {
@@ -512,6 +582,7 @@ public class HomeGui extends JFrame {
                 JOptionPane.ERROR_MESSAGE);
     }
 
+    // EFFECTS: creates and returns a JPanel for viewing a buyer's wishlist
     private JPanel createViewWishlistPanel() {
         JPanel panel = new JPanel(new GridLayout(3, 1, 10, 10));
         JPanel namePanel = new JPanel(new FlowLayout());
@@ -541,6 +612,8 @@ public class HomeGui extends JFrame {
         return panel;
     }
 
+    // REQUIRES: name != null
+    // EFFECTS: displays the wishlist of the buyer with the specified name
     private void viewWishlist(String buyerName) {
         Buyer buyer = buyers.get(buyerName); // retrieve the buyer from the buyers map
         if (buyer == null) {

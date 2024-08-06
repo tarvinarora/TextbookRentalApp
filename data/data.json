@@ -1,34 +1,21 @@
 {
-    "buyers": {
-        "Tarvin": {
-            "wishlisted": [{
-                "Rental Price": "",
-                "Condition": "",
-                "Title": "Tricolore",
-                "Author": "",
-                "Is Rented": true,
-                "Subject": "French"
-            }],
-            "buyerName": "Tarvin"
-        },
-        "Khushi": {
-            "wishlisted": [{
-                "Rental Price": "",
-                "Condition": "",
-                "Title": "Tricolore",
-                "Author": "",
-                "Is Rented": true,
-                "Subject": "French"
-            }],
-            "buyerName": "Khushi"
-        }
-    },
-    "bookMap": {"French": [{
-        "Rental Price": "",
-        "Condition": "",
-        "Title": "Tricolore",
-        "Author": "",
-        "Is Rented": true,
-        "Subject": "French"
+    "buyers": {"Tarvin": {
+        "wishlisted": [{
+            "Rental Price": "10",
+            "Condition": "Good",
+            "Title": "Adopt Algebra",
+            "Author": "Author",
+            "Is Rented": false,
+            "Subject": "Math"
+        }],
+        "buyerName": "Tarvin"
+    }},
+    "bookMap": {"Math": [{
+        "Rental Price": "10",
+        "Condition": "Good",
+        "Title": "Adopt Algebra",
+        "Author": "Author",
+        "Is Rented": false,
+        "Subject": "Math"
     }]}
 }
