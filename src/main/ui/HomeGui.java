@@ -49,12 +49,14 @@ public class HomeGui extends JFrame {
         JPanel searchPanel = createSearchPanel();
         JPanel viewWishlistPanel = createViewWishlistPanel();
         JPanel confirmRentalPanel = createConfirmRentalPanel();
+        JPanel confirmAdditionToWishlistPanel = confirmAdditionToWishlistPanel();
         mainPanel.add(homePanel, "Home");
         mainPanel.add(rentPanel, "Rent");
         mainPanel.add(listPanel, "List");
         mainPanel.add(searchPanel, "Search");
         mainPanel.add(viewWishlistPanel, "ViewWishlist");
         mainPanel.add(confirmRentalPanel, "ConfirmRental");
+        mainPanel.add(confirmAdditionToWishlistPanel, "ConfirmAdditionToWishlist");
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
@@ -292,10 +294,7 @@ public class HomeGui extends JFrame {
                 if (result == JOptionPane.NO_OPTION) {
                     cardLayout.show(mainPanel, "ConfirmRental");
                 } else if (result == JOptionPane.CANCEL_OPTION) {
-                    for (Textbook textbook: textbooks) {
-                        currentBuyer.addToWishlist(textbook);
-                    }
-                    JOptionPane.showMessageDialog(mainPanel, "Books added to wishlist", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    cardLayout.show(mainPanel, "ConfirmAdditionToWishlist");
                 }
             }
         } else {
@@ -451,6 +450,40 @@ public class HomeGui extends JFrame {
         }
         JOptionPane.showMessageDialog(mainPanel, "No book found with title: " + title, "Rental Status",
                 JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    private JPanel confirmAdditionToWishlistPanel() {
+        JPanel panel = new JPanel(new GridLayout(4, 1, 10, 10));
+        JLabel titleLabel = new JLabel("Please enter the Title of the book you want to Add to Wishlist: ");
+        JTextField titleField = new JTextField();
+        JButton confirmButton = new JButton("Add Textbook to Wishlist");
+        confirmButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                confirmAdditionToWishlist(titleField.getText());
+            }
+        });
+    panel.add(titleLabel);
+    panel.add(titleField);
+    panel.add(confirmButton);
+    panel.add(createBackButton());
+
+    return panel;
+    }
+
+    private void confirmAdditionToWishlist(String title) {
+        for (ArrayList<Textbook> textbooks : bookMap.values()) {
+            for (Textbook book : textbooks) {
+                if (book.getTitle().equalsIgnoreCase(title)) {
+                    currentBuyer.addToWishlist(book);
+                    JOptionPane.showMessageDialog(mainPanel, "Book added to wishlist!", "Success",
+                            JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+            }
+        }
+        JOptionPane.showMessageDialog(mainPanel, "No book found with title: " + title, "Error",
+                JOptionPane.ERROR_MESSAGE);
     }
 
     private JPanel createViewWishlistPanel() {
