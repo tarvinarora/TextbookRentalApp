@@ -42,6 +42,8 @@ public class Buyer implements Writable {
         if (!wishlisted.contains(textbook)) { // checks for duplicates
             wishlisted.add(textbook);
         }
+        EventLog.getInstance()
+                .logEvent(new Event("Textbook" + textbook.getTitle() + "added to wishlist for " + getBuyerName()));
     }
 
     // EFFECTS: returns the Buyer's wishlist
