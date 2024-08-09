@@ -22,7 +22,6 @@ public class Textbook implements Writable {
         this.author = author;
         this.subject = subject;
         this.rentalPrice = rentalPrice;
-        ;
         this.condition = condition;
         this.status = false;
     }
