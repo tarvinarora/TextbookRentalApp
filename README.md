@@ -107,3 +107,9 @@ Thu Aug 08 18:03:07 PDT 2024
 Textbook Tricolore added to wishlist for Tarvin
 Thu Aug 08 18:03:17 PDT 2024
 Textbook Advanced Programming marked as Rented.
+
+##Phase 4: Task 3
+
+I think the implementation of design patterns, specifically the Observer Pattern could improve the code reusability in my application. The observer pattern specifically could be used since the Buyer needs to be updated about the Textbook rental status to be able to carry out Rent functions. 
+
+Another improvement, would be the application of the Single Responsibility Principle, and the use of abstract methods to replace duplicating functionality in other methods. To enhance this, the Buyer and Seller classes could be made to implement an interface called "User". This would reduce duplication of code.
