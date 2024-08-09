@@ -60,3 +60,50 @@ Successfully renting a book!
 - You can save the state of my application by clicking "Yes" after clicking "Exit" or attempting to close the application.
 
 - You can reload the state of my application by clicking "Yes" before the application attempts to open. 
+
+##Phase 4: Task 2
+
+Events logged during this session:
+Thu Aug 08 17:59:52 PDT 2024
+Textbook title set to Tricolore.
+Thu Aug 08 17:59:52 PDT 2024
+Author name set to Jacob Penn.
+Thu Aug 08 17:59:52 PDT 2024
+Textbook added to French list.
+Thu Aug 08 17:59:52 PDT 2024
+Rental Price set to 5.
+Thu Aug 08 17:59:52 PDT 2024
+Textbook condition set to Good.
+Thu Aug 08 17:59:52 PDT 2024
+Textbook Tricolore marked as Not Rented.
+Thu Aug 08 18:00:14 PDT 2024
+Textbook title set to Advanced Programming.
+Thu Aug 08 18:00:14 PDT 2024
+Author name set to Dmitri Kostas.
+Thu Aug 08 18:00:14 PDT 2024
+Textbook added to Computer Science list.
+Thu Aug 08 18:00:14 PDT 2024
+Rental Price set to 10.
+Thu Aug 08 18:00:14 PDT 2024
+Textbook condition set to Excellent.
+Thu Aug 08 18:00:14 PDT 2024
+Textbook Advanced Programming marked as Not Rented.
+Thu Aug 08 18:00:33 PDT 2024
+Textbook Tricolore marked as Rented.
+Thu Aug 08 18:00:50 PDT 2024
+Textbook Advanced Programming added to wishlist for Sophia
+
+Loaded state from ./data/data.json
+Events logged during this session:
+Thu Aug 08 18:02:49 PDT 2024
+Textbook Advanced Programming rental status set to false
+Thu Aug 08 18:02:49 PDT 2024
+Textbook Advanced Programming added to wishlist for Sophia
+Thu Aug 08 18:02:49 PDT 2024
+Textbook Tricolore rental status set to true
+Thu Aug 08 18:02:49 PDT 2024
+Textbook Advanced Programming rental status set to false
+Thu Aug 08 18:03:07 PDT 2024
+Textbook Tricolore added to wishlist for Tarvin
+Thu Aug 08 18:03:17 PDT 2024
+Textbook Advanced Programming marked as Rented.

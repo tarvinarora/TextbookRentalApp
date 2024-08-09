@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import model.Textbook;
 import model.Buyer;
+import model.EventLog;
+import model.Event;
 
 import javax.swing.*;
 
@@ -130,6 +132,13 @@ public class HomeGui extends JFrame {
         }
     }
 
+    public void printAllEvents() {
+        System.out.println("Events logged during this session:");
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event);
+        }
+    }
+
     // EFFECTS: creates the home panel for the GUI
     private JPanel createHomePanel() {
         JPanel panel = new JPanel();
@@ -215,6 +224,7 @@ public class HomeGui extends JFrame {
                 if (response == JOptionPane.YES_OPTION) {
                     saveState();
                 }
+                printAllEvents();
                 System.exit(0);
             }
         });
@@ -394,6 +404,11 @@ public class HomeGui extends JFrame {
         String price = fields[3].getText();
         String condition = fields[4].getText();
         Textbook textbook = new Textbook(title, author, subject, price, condition);
+        textbook.setTitle(title);
+        textbook.setAuthor(author);
+        textbook.setSubject(subject);
+        textbook.setRentalPrice(price);
+        textbook.setCondition(condition);
         textbook.markNotRented();
         if (!bookMap.containsKey(subject)) {
             bookMap.put(subject, new ArrayList<Textbook>());

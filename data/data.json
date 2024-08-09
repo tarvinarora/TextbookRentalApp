@@ -1,31 +1,44 @@
 {
-    "buyers": {"Tarvin": {
-        "wishlisted": [{
-            "Rental Price": "",
-            "Condition": "",
+    "buyers": {
+        "Tarvin": {
+            "wishlisted": [{
+                "Rental Price": "5",
+                "Condition": "Good",
+                "Title": "Tricolore",
+                "Author": "Jacob Penn",
+                "Is Rented": true,
+                "Subject": "French"
+            }],
+            "buyerName": "Tarvin"
+        },
+        "Sophia": {
+            "wishlisted": [{
+                "Rental Price": "10",
+                "Condition": "Excellent",
+                "Title": "Advanced Programming",
+                "Author": "Dmitri Kostas",
+                "Is Rented": false,
+                "Subject": "Computer Science"
+            }],
+            "buyerName": "Sophia"
+        }
+    },
+    "bookMap": {
+        "French": [{
+            "Rental Price": "5",
+            "Condition": "Good",
             "Title": "Tricolore",
-            "Author": "",
+            "Author": "Jacob Penn",
             "Is Rented": true,
             "Subject": "French"
         }],
-        "buyerName": "Tarvin"
-    }},
-    "bookMap": {"French": [
-        {
-            "Rental Price": "5",
-            "Condition": "Good",
-            "Title": "Tricolore 1",
-            "Author": "author",
-            "Is Rented": false,
-            "Subject": "French"
-        },
-        {
-            "Rental Price": "",
-            "Condition": "",
-            "Title": "Tricolore",
-            "Author": "",
+        "Computer Science": [{
+            "Rental Price": "10",
+            "Condition": "Excellent",
+            "Title": "Advanced Programming",
+            "Author": "Dmitri Kostas",
             "Is Rented": true,
-            "Subject": "French"
-        }
-    ]}
+            "Subject": "Computer Science"
+        }]
+    }
 }
